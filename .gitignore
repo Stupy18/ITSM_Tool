@@ -1,8 +1,8 @@
 
 *.xml
 
-ubb/ubb/src/main/resources/application.properties
-
 .idea/ITSM_Tool.iml
 
 create.sql
+
+ubb/ubb/src/main/resources/application-local.properties
