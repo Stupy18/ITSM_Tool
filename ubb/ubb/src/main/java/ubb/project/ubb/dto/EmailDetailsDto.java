@@ -4,9 +4,8 @@ import lombok.Data;
 
 @Data
 public class EmailDetailsDto {
-
     private String to;
-    private String subject;
-    private String text;
-
+    private String projectLink;
+    private String userCredentials;
+    private String passwordCredentials;
 }

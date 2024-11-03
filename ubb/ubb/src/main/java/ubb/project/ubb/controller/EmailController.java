@@ -17,24 +17,27 @@ public class EmailController {
     @PostMapping("/client")
     public String sendEmailToClient(@RequestBody EmailDetailsDto emailDetails) {
         try {
-            emailService.sendEmailToClient(emailDetails.getTo(), emailDetails.getSubject(), emailDetails.getText());
-            return "Email sent successfully";
+            emailService.sendEmailToClient(emailDetails.getTo(), emailDetails.getProjectLink());
+            return "Client email sent successfully";
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error in sending email: " + e.getMessage();
+            return "Error in sending client email: " + e.getMessage();
         }
     }
 
     @PostMapping("/developer")
     public String sendEmailToDeveloper(@RequestBody EmailDetailsDto emailDetails) {
         try {
-            emailService.sendEmailToDeveloper(emailDetails.getTo(), emailDetails.getSubject(), emailDetails.getText());
-            return "Email sent successfully";
+            emailService.sendEmailToDeveloper(
+                    emailDetails.getTo(),
+                    emailDetails.getUserCredentials(),
+                    emailDetails.getPasswordCredentials()
+            );
+            return "Developer email sent successfully";
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error in sending email: " + e.getMessage();
+            return "Error in sending developer email: " + e.getMessage();
         }
     }
-
 
 }
