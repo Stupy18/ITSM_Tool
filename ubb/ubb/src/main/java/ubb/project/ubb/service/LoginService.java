@@ -22,6 +22,7 @@ public class LoginService {
 
     public LoginResponseDto loginResponse(LoginRequestDto requestDto) throws NotMatchException, NotExistsException {
         User user = this.repository.findUserByEmail(requestDto.getEmail());
+
         if(user != null){
             if(user.getPassword().equals(requestDto.getPassword())){
                 return new LoginResponseDto(user.getId(), user.getEmail(), user.getName(), user.getRoles().stream().map((Role role)->{return role.getId();}).toList());
