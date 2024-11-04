@@ -12,6 +12,7 @@ import {
     UserOutlined,
   } from "@ant-design/icons";
 import React from "react";
+import { jwtDecode } from "jwt-decode";
 
 
 interface FormItemIndexes {
@@ -33,7 +34,12 @@ export default function Login() {
         loginUser({ userRequest: user })
           .unwrap()
           .then((data) => {
-            localStorage.setItem(LocalStorageEnum.USER, JSON.stringify(data));
+            console.log(data)
+            console.log(data.jwt)
+            const decoded = jwtDecode(data.jwt);
+            console.log(decoded)
+
+            //localStorage.setItem(LocalStorageEnum.USER, JSON.stringify(decoded));
             
           })
           .catch((error) => console.log(error));
@@ -77,3 +83,5 @@ export default function Login() {
 
 
   }
+
+
