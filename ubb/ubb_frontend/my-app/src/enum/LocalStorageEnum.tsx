@@ -1,4 +1,5 @@
 export enum LocalStorageEnum {
-    USER = "USER",
+    USER_ID="USER_ID",
+    USER_NAME = "USER_NAME"
   }
   

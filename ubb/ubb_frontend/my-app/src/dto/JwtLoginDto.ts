@@ -1,3 +1,3 @@
 export interface JwtLoginDto{
-    token:string;
+    jwt:string;
 }

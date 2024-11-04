@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { LocalStorageEnum } from "../enum/LocalStorageEnum.tsx";
-import { Alert, Button, Form, Input, Spin } from "antd";
+import {  Button, Form, Input,  } from "antd";
 import { useLoginMutation } from "../api/UserApi.ts";
 import { LoginResponseDto } from "../dto/LoginResponseDto";
 import { LoginRequestDto } from "../dto/LoginRequestDto";
@@ -13,6 +13,7 @@ import {
   } from "@ant-design/icons";
 import React from "react";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 
 interface FormItemIndexes {
@@ -24,6 +25,7 @@ export default function Login() {
     const [form] = Form.useForm();
     const [user, setUser] = useState<LoginResponseDto>();
     const [loginUser, { isError, data, isLoading }] = useLoginMutation();
+    const navigate = useNavigate();
 
     const handleOnSubmit = (formItems: FormItemIndexes) => {
         const user: LoginRequestDto = {
@@ -34,12 +36,11 @@ export default function Login() {
         loginUser({ userRequest: user })
           .unwrap()
           .then((data) => {
-            console.log(data)
-            console.log(data.jwt)
-            const decoded = jwtDecode(data.jwt);
-            console.log(decoded)
+            const decoded : LoginResponseDto = jwtDecode(data.jwt);
+            localStorage.setItem(LocalStorageEnum.USER_NAME, JSON.stringify(decoded.user));
+            localStorage.setItem(LocalStorageEnum.USER_ID, JSON.stringify(decoded.id));
+            navigate("/logged");
 
-            //localStorage.setItem(LocalStorageEnum.USER, JSON.stringify(decoded));
             
           })
           .catch((error) => console.log(error));

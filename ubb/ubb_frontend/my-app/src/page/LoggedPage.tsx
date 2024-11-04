@@ -8,11 +8,11 @@ export default function LoggedPage(){
 
     const [username, setUsername] = useState<String>(" ")
     useEffect(()=>{
-        if(localStorage.getItem(LocalStorageEnum.USER))
-            setUsername(localStorage.getItem(LocalStorageEnum.USER)!)
-    },[localStorage.getItem(LocalStorageEnum.USER)])
+        if(localStorage.getItem(LocalStorageEnum.USER_NAME))
+            setUsername(localStorage.getItem(LocalStorageEnum.USER_NAME)!)
+    },[localStorage.getItem(LocalStorageEnum.USER_NAME)])
     
     return(
         <text>
-        You're logged in, ${username}!</text>)
+        You're logged in, {username}!</text>)
 }
