@@ -98,8 +98,8 @@ public class JwtTokenService {
                 .claim(CLAIM_USER, user.getUsername())//
                 .claim(CLAIM_ROLE, user.getRoleIds())//
                 .claim(CLAIM_EMAIL, user.getEmail())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))//
-                .signWith(getSigningKey())
+                //.setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))//
+                //.signWith(getSigningKey())
                 .compact();
         return jwtToken;
     }
