@@ -8,6 +8,7 @@ public class UbbProjectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UbbProjectApplication.class, args);
+		System.out.println("Started Successfully");
 	}
 
 }
