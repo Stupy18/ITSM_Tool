@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ubb.project.ubb.dto.CompanyDto;
+import ubb.project.ubb.dto.CompanyRegistrationDto;
 import ubb.project.ubb.exception.CompanyExistsException;
 import ubb.project.ubb.service.CompanyRegistrationService;
 
@@ -17,9 +17,9 @@ public class CompanyController {
     public CompanyController(CompanyRegistrationService companyRegistrationService) { this.companyRegistrationService = companyRegistrationService; }
 
     @PostMapping("/register")
-    public void registerCompany(@RequestBody CompanyDto companyDto) throws CompanyExistsException
+    public void registerCompany(@RequestBody CompanyRegistrationDto companyRegistrationDto) throws CompanyExistsException
     {
-        companyRegistrationService.registerCompany(companyDto);
+        companyRegistrationService.registerCompany(companyRegistrationDto);
     }
 
 }

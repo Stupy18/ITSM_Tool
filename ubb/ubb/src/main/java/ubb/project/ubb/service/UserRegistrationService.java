@@ -1,11 +1,8 @@
 package ubb.project.ubb.service;
 
-import org.hibernate.query.ParameterLabelException;
 import org.springframework.stereotype.Service;
-import ubb.project.ubb.data.Company;
 import ubb.project.ubb.data.User;
-import ubb.project.ubb.dto.UserRegisterDto;
-import ubb.project.ubb.exception.CompanyExistsException;
+import ubb.project.ubb.dto.UserRegistrationDto;
 import ubb.project.ubb.exception.EmailInUseException;
 import ubb.project.ubb.exception.EmailInvalidException;
 import ubb.project.ubb.exception.PasswordInvalidException;
@@ -20,7 +17,7 @@ public class UserRegistrationService {
 
     public UserRegistrationService(IUserRepository userRepository) { this.userRepository = userRepository; }
 
-    public User registerUser(UserRegisterDto userDto) throws EmailInUseException, PasswordInvalidException, EmailInvalidException
+    public User registerUser(UserRegistrationDto userDto) throws EmailInUseException, PasswordInvalidException, EmailInvalidException
     {
         if(userRepository.findUserByEmail(userDto.getEmail()) != null)
             throw new EmailInUseException("Email address is  already in use.");

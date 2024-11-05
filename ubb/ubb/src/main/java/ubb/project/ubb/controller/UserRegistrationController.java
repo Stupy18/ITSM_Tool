@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ubb.project.ubb.dto.UserRegisterDto;
+import ubb.project.ubb.dto.UserRegistrationDto;
 import ubb.project.ubb.exception.EmailInUseException;
 import ubb.project.ubb.exception.EmailInvalidException;
 import ubb.project.ubb.exception.PasswordInvalidException;
@@ -19,9 +19,9 @@ public class UserRegistrationController {
     public UserRegistrationController(UserRegistrationService userRegistrationService) { this.userRegistrationService = userRegistrationService; }
 
     @PostMapping()
-    public void registerCompany(@RequestBody UserRegisterDto userRegisterDto) throws EmailInUseException, EmailInvalidException, PasswordInvalidException
+    public void registerCompany(@RequestBody UserRegistrationDto userRegistrationDto) throws EmailInUseException, EmailInvalidException, PasswordInvalidException
     {
-        userRegistrationService.registerUser(userRegisterDto);
+        userRegistrationService.registerUser(userRegistrationDto);
     }
 
 }

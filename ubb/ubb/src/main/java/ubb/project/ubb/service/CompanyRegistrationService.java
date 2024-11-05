@@ -2,8 +2,7 @@ package ubb.project.ubb.service;
 
 import org.springframework.stereotype.Service;
 import ubb.project.ubb.data.Company;
-import ubb.project.ubb.data.User;
-import ubb.project.ubb.dto.CompanyDto;
+import ubb.project.ubb.dto.CompanyRegistrationDto;
 import ubb.project.ubb.exception.CompanyExistsException;
 import ubb.project.ubb.repository.ICompanyRepository;
 
@@ -14,13 +13,13 @@ public class CompanyRegistrationService {
 
     public CompanyRegistrationService(ICompanyRepository companyRepository) { this.companyRepository = companyRepository; }
 
-    public Company registerCompany(CompanyDto companyDto) throws CompanyExistsException
+    public Company registerCompany(CompanyRegistrationDto companyRegistrationDto) throws CompanyExistsException
     {
-        if(companyRepository.findByCompanyName(companyDto.getCompanyName()).isPresent())
+        if(companyRepository.findByCompanyName(companyRegistrationDto.getCompanyName()).isPresent())
             throw new CompanyExistsException("Company already exists");
 
         Company company = new Company();
-        company.setCompanyName(companyDto.getCompanyName());
+        company.setCompanyName(companyRegistrationDto.getCompanyName());
 
         companyRepository.save(company);
         return company;

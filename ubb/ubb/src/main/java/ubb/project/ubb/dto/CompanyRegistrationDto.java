@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @AllArgsConstructor
-public class CompanyDto {
+public class CompanyRegistrationDto {
 
     private String companyName;
 
