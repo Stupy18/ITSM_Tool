@@ -18,7 +18,7 @@ public class File {
     private String fileName;
 
     @Lob
-    @Column(columnDefinition = "BLOB")
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] fileContent;
 
     private String fileType;

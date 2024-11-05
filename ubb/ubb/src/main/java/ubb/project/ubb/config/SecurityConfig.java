@@ -7,7 +7,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -26,11 +25,13 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher("/login")).permitAll()
                         .requestMatchers(antMatcher("/login/healthcheck")).permitAll()
                         .requestMatchers(antMatcher("/socket/**")).permitAll()
-                        .requestMatchers("/email/to/**").permitAll())  // Permit the email endpoints
+                        .requestMatchers("/email/to/**").permitAll()
+                        .requestMatchers("/files/upload").permitAll()
+                        .requestMatchers("/files/download/**").permitAll())
 
                 .authorizeHttpRequests(request -> request.requestMatchers(antMatcher("/**")).authenticated())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-                ;
+        ;
         return http.build();
     }
 
