@@ -25,7 +25,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request.requestMatchers(antMatcher(HttpMethod.OPTIONS)).permitAll()
                         .requestMatchers(antMatcher("/login")).permitAll()
                         .requestMatchers(antMatcher("/login/healthcheck")).permitAll()
-                        .requestMatchers(antMatcher("/socket/**")).permitAll())
+                        .requestMatchers(antMatcher("/socket/**")).permitAll()
+                        .requestMatchers("/email/to/**").permitAll())  // Permit the email endpoints
+
                 .authorizeHttpRequests(request -> request.requestMatchers(antMatcher("/**")).authenticated())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 ;
