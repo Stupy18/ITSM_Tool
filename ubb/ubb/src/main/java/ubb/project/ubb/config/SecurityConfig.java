@@ -24,6 +24,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request.requestMatchers(antMatcher(HttpMethod.OPTIONS)).permitAll()
                         .requestMatchers(antMatcher("/login")).permitAll()
+                        .requestMatchers(antMatcher("/register")).permitAll()
+                        .requestMatchers(antMatcher("/company/register")).permitAll()
                         .requestMatchers(antMatcher("/login/healthcheck")).permitAll()
                         .requestMatchers(antMatcher("/socket/**")).permitAll())
                 .authorizeHttpRequests(request -> request.requestMatchers(antMatcher("/**")).authenticated())

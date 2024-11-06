@@ -13,7 +13,7 @@ public class CompanyRegistrationService {
 
     public CompanyRegistrationService(ICompanyRepository companyRepository) { this.companyRepository = companyRepository; }
 
-    public Company registerCompany(CompanyRegistrationDto companyRegistrationDto) throws CompanyExistsException
+    public void registerCompany(CompanyRegistrationDto companyRegistrationDto) throws CompanyExistsException
     {
         if(companyRepository.findByCompanyName(companyRegistrationDto.getCompanyName()).isPresent())
             throw new CompanyExistsException("Company already exists");
@@ -22,8 +22,6 @@ public class CompanyRegistrationService {
         company.setCompanyName(companyRegistrationDto.getCompanyName());
 
         companyRepository.save(company);
-        return company;
-
     }
 
 }

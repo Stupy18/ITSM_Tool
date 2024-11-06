@@ -5,6 +5,7 @@ import ubb.project.ubb.data.User;
 import ubb.project.ubb.dto.UserRegistrationDto;
 import ubb.project.ubb.exception.EmailInUseException;
 import ubb.project.ubb.exception.EmailInvalidException;
+import ubb.project.ubb.exception.NameInvalidException;
 import ubb.project.ubb.exception.PasswordInvalidException;
 import ubb.project.ubb.repository.IUserRepository;
 
@@ -17,16 +18,19 @@ public class UserRegistrationService {
 
     public UserRegistrationService(IUserRepository userRepository) { this.userRepository = userRepository; }
 
-    public User registerUser(UserRegistrationDto userDto) throws EmailInUseException, PasswordInvalidException, EmailInvalidException
+    public void registerUser(UserRegistrationDto userDto) throws EmailInUseException, PasswordInvalidException, EmailInvalidException, NameInvalidException
     {
-        if(userRepository.findUserByEmail(userDto.getEmail()) != null)
-            throw new EmailInUseException("Email address is  already in use.");
+        if(userDto.getName().isEmpty())
+            throw new NameInvalidException("Name is empty");
 
-        if(!Pattern.matches(".*@.*\\..*", userDto.getEmail()))
+        if(userRepository.findUserByEmail(userDto.getEmail()) != null)
+            throw new EmailInUseException("Email address is already in use.");
+
+        if(userDto.getEmail().isEmpty() || !Pattern.matches(".*@.*\\..*", userDto.getEmail()))
             throw new EmailInvalidException("Invalid email address provided.");
 
         if(userDto.getPassword().length() < 6)
-            throw new PasswordInvalidException("Password must be longer than 6 characters.");
+            throw new PasswordInvalidException("Password must contain at least 6 characters.");
 
         User user = new User();
 
@@ -34,14 +38,11 @@ public class UserRegistrationService {
         user.setPassword(userDto.getPassword());
         user.setName(userDto.getName());
 
-
         // roles not defined yet
 
         //user.getRoles().add(admin);
 
         userRepository.save(user);
-
-        return user;
     }
 
 }
