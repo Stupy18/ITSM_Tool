@@ -40,7 +40,6 @@ export default function Register() {
   };
 
   const errorMessage = error && 'data' in error && (error.data as { message?: string }).message;
-  console.log(errorMessage);
 
   return (
     <Form
