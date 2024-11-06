@@ -37,16 +37,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/email/to/**").permitAll()  // Permit the email endpoints
-                        .anyRequest().authenticated()
-                );
-        return http.build();
-    }
-
 
 }
 
