@@ -77,6 +77,7 @@ export default function Login() {
         >
           {isLoading ? <LoadingOutlined /> : <span>Login</span>}
         </Button>
+        <p>Don't have an account? <a href="/register">Register.</a></p>
       </Form>)
 
 
