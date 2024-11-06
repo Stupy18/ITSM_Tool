@@ -22,7 +22,7 @@ export default function Register() {
       .catch((error) => console.log("Company Registration failed:", error));
   };
 
-  const errorMessage = error && 'data' in error && (error.data as { message?: string }).message;
+  const errorMessage = error && 'data' in error && error.data != null && (error.data as { message?: string }).message;
 
   return (
     <Form
