@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import store from '../src/api/store.js'; 
 import LoggedPage from '../src/page/LoggedPage.tsx';
 import LoginPage from '../src/page/LoginPage.tsx';
-import RegisterUserPage from '../src/page/RegisterUserPage.tsx';
-import RegisterCompanyPage from '../src/page/RegisterCompanyPage.tsx';
+import RegisterUserPage from '../src/page/UserRegistrationPage.tsx';
+import RegisterCompanyPage from '../src/page/CompanyRegistrationPage.tsx';
 
 function App() {
   return (
