@@ -6,3 +6,5 @@
 create.sql
 
 ubb/ubb/src/main/resources/application-local.properties
+
+ubb/ubb_frontend/my-app/.idea/my-app.iml
