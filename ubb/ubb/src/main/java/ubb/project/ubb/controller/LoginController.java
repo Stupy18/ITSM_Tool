@@ -1,6 +1,7 @@
 package ubb.project.ubb.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ubb.project.ubb.config.JwtTokenService;
 import ubb.project.ubb.dto.JwtInfoDto;
@@ -22,6 +23,7 @@ public class LoginController {
     }
 
     @PostMapping()
+    @Secured({"ADMIN","DEVELOPER"})
     public JwtInfoDto attemptLogin(@RequestBody LoginRequestDto requestDto) throws NotExistsException, NotMatchException {
         LoginResponseDto responseDto = this.service.loginResponse(requestDto);
         return new JwtInfoDto(jwtTokenService.createJwtToken(responseDto));

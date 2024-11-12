@@ -2,6 +2,7 @@ package ubb.project.ubb.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ubb.project.ubb.data.File;
@@ -31,6 +32,7 @@ public class FileController {
      * @return ResponseEntity containing FileResponseDto and HTTP status.
      */
     @PostMapping("/upload")
+    @Secured({"ADMIN"})
     public ResponseEntity<FileResponseDto> uploadFile(
             @RequestParam("projectId") Long projectId,
             @RequestParam("file") MultipartFile file) {
@@ -55,6 +57,7 @@ public class FileController {
      * @return ResponseEntity containing the file bytes and HTTP headers.
      */
     @GetMapping("/download/{fileId}")
+    @Secured({"GUEST","ADMIN"})
     public ResponseEntity<byte[]> downloadFile(@PathVariable Long fileId) {
         try {
             File file = fileService.getFileById(fileId);

@@ -4,6 +4,7 @@ package ubb.project.ubb.controller;
 import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import ubb.project.ubb.dto.EmailDetailsDto;
@@ -18,6 +19,7 @@ public class EmailController {
     private EmailService emailService;
 
     @PostMapping("/client")
+    @Secured("ADMIN")
     public ResponseEntity<String> sendEmailToClient(@RequestBody EmailDetailsDto emailDetails) {
         try {
             emailService.sendEmailToClient(emailDetails.getTo(), emailDetails.getProjectLink());
@@ -30,6 +32,7 @@ public class EmailController {
     }
 
     @PostMapping("/developer")
+    @Secured("ADMIN")
     public ResponseEntity<String> sendEmailToDeveloper(@RequestBody EmailDetailsDto emailDetails) {
         try {
             emailService.sendEmailToDeveloper(
