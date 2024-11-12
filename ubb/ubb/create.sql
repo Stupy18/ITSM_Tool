@@ -4,7 +4,7 @@ create table company (id bigint not null auto_increment, company_name varchar(25
 create table file (id bigint not null auto_increment, project_id bigint, file_name varchar(255), file_type varchar(255), file_content LONGBLOB, primary key (id)) engine=InnoDB;
 create table project (end_date date, start_date date, company_id bigint, id bigint not null auto_increment, project_name varchar(255), primary key (id)) engine=InnoDB;
 create table project_users (project_id bigint not null, user_id bigint not null, primary key (project_id, user_id)) engine=InnoDB;
-create table role (id bigint not null auto_increment, role_name enum ('ADMIN','DEVELOPER','GUEST') not null, primary key (id)) engine=InnoDB;
+create table role (role_name tinyint not null, id bigint not null auto_increment, primary key (id)) engine=InnoDB;
 create table user (company_id bigint, id bigint not null auto_increment, email varchar(255) not null, name varchar(255), password varchar(255), primary key (id)) engine=InnoDB;
 create table user_roles (role_id bigint not null, user_id bigint not null, primary key (role_id, user_id)) engine=InnoDB;
 alter table role add constraint UKiubw515ff0ugtm28p8g3myt0h unique (role_name);

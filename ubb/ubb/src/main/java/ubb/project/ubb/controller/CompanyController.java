@@ -2,6 +2,7 @@ package ubb.project.ubb.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class CompanyController {
     public CompanyController(CompanyRegistrationService companyRegistrationService) { this.companyRegistrationService = companyRegistrationService; }
 
     @PostMapping("/register")
+    @Secured("ADMIN")
     public ResponseEntity<Map<String, String>> registerCompany(@RequestBody CompanyRegistrationDto companyRegistrationDto)
     {
         try{

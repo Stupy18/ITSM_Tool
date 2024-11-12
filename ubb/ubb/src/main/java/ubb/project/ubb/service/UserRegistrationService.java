@@ -23,7 +23,7 @@ public class UserRegistrationService {
         if(userDto.getName().isEmpty())
             throw new NameInvalidException("Name is empty");
 
-        if(userRepository.findUserByEmail(userDto.getEmail()) != null)
+        if(userRepository.findByEmail(userDto.getEmail()) != null)
             throw new EmailInUseException("Email address is already in use.");
 
         if(userDto.getEmail().isEmpty() || !Pattern.matches(".*@.*\\..*", userDto.getEmail()))

@@ -58,8 +58,8 @@ public class JwtTokenService {
 //                    List<Long> roles = Arrays.asList(role.split(",")).stream().map((String pre_role)->{return Long.parseLong(pre_role);}).toList();
 //
 //                    //Spring Security stuff
-//                    //ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-//                    //authorities.add(new SimpleGrantedAuthority(roles));
+//                    ArrayList<GrantedAuthority> authorities = new ArrayList<>();
+//                    authorities.add(new SimpleGrantedAuthority(roles));
 //                    auth = new UsernamePasswordAuthenticationToken(new LoginResponseDto(newId,email, username, roles), null, null);
 //                }
 //            }
@@ -98,13 +98,13 @@ public class JwtTokenService {
                 .claim(CLAIM_USER, user.getUsername())//
                 .claim(CLAIM_ROLE, user.getRoleIds())//
                 .claim(CLAIM_EMAIL, user.getEmail())
-                //.setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))//
-                //.signWith(getSigningKey())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))//
+                .signWith(getSigningKey())
                 .compact();
         return jwtToken;
     }
 
-    private Key getSigningKey() {
+    Key getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 }

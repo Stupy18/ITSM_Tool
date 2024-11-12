@@ -27,7 +27,7 @@ class UserRegistrationServiceTest {
     void testRegisterUser_success() throws Exception {
         UserRegistrationDto userDto = new UserRegistrationDto("test@example.com", "password123", "Test User");
 
-        when(userRepository.findUserByEmail(userDto.getEmail())).thenReturn(null);
+        when(userRepository.findByEmail(userDto.getEmail())).thenReturn(null);
 
         userRegistrationService.registerUser(userDto);
 
@@ -38,7 +38,7 @@ class UserRegistrationServiceTest {
     void testRegisterUser_emailInUse() {
         UserRegistrationDto userDto = new UserRegistrationDto("test@example.com", "password123", "Test User");
 
-        when(userRepository.findUserByEmail(userDto.getEmail())).thenReturn(new User());
+        when(userRepository.findByEmail(userDto.getEmail())).thenReturn(new User());
 
         assertThrows(EmailInUseException.class, () -> userRegistrationService.registerUser(userDto));
     }
