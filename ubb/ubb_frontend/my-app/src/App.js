@@ -3,10 +3,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../src/api/store.js'; 
-import LoggedPage from '../src/page/LoggedPage.tsx';
-import LoginPage from '../src/page/LoginPage.tsx';
-import RegisterUserPage from '../src/page/UserRegistrationPage.tsx';
-import RegisterCompanyPage from '../src/page/CompanyRegistrationPage.tsx';
+import LoggedPage from '../src/pages/LoggedPage.tsx';
+import LoginPage from '../src/pages/Login/LoginPage.tsx';
+import RegisterUserPage from '../src/pages/Register/UserRegistrationPage.tsx';
+import RegisterCompanyPage from '../src/pages/Register/CompanyRegistrationPage.tsx';
+
 
 function App() {
   return (

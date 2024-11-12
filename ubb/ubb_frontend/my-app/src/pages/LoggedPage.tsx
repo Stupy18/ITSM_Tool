@@ -14,5 +14,6 @@ export default function LoggedPage(){
     
     return(
         <text>
-        You're logged in, {username}!</text>)
+        You're logged in, {username}!
+        </text>)
 }

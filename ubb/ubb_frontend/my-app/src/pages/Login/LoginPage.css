@@ -1,0 +1,138 @@
+.login-root{
+    background: #fff;
+    padding-top: 10%;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    .title{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #5469d4;
+        position: absolute;
+        left: 50%;
+        top: 20%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .login-form{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;
+        background-color: #fff;
+        padding: 2rem;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        border-radius: 10px;
+    
+        .login-button{
+            width: 100%;
+            margin-top: 1em;
+            background-color: #5469d4;
+            font-size: 1.2em;
+        }
+
+    }
+}
+
+
+/* General Flex and Box Styles */
+.box-root {
+    box-sizing: border-box;
+}
+
+.flex-flex {
+    display: flex;
+}
+
+.flex-direction--column {
+    flex-direction: column;
+}
+
+/* Background Colors */
+.box-background--white {
+    background-color: #ffffff;
+}
+
+.box-background--blue {
+    background-color: #5469d4;
+}
+
+.box-background--blue800 {
+    background-color: #212d63;
+}
+
+.box-background--gray100 {
+    background-color: #e3e8ee;
+}
+
+.box-background--cyan200 {
+    background-color: #7fd3ed;
+}
+
+/* Divider */
+.box-divider--light-all-2 {
+    box-shadow: inset 0 0 0 2px #e3e8ee;
+}
+
+/* Animation Classes */
+.animationLeftRight {
+    animation: animationLeftRight 3s ease-in-out infinite;
+}
+
+.animationRightLeft {
+    animation: animationRightLeft 4s ease-in-out infinite;
+}
+
+.tans3s {
+    animation: animationLeftRight 3s ease-in-out infinite;
+}
+
+.tans4s {
+    animation: animationRightLeft 4s ease-in-out infinite;
+}
+
+/* Keyframes for Animations */
+@keyframes animationLeftRight {
+    0% {
+        transform: translateX(0px);
+    }
+    50% {
+        transform: translateX(1000px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+@keyframes animationRightLeft {
+    0% {
+        transform: translateX(0px);
+    }
+    50% {
+        transform: translateX(-1000px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+/* Grid Container */
+.loginbackground-gridContainer {
+    display: grid;
+    grid-template-columns: [start] 1fr [left-gutter] repeat(16, 86.6px) [left-gutter] 1fr [end];
+    grid-template-rows: [top] 1fr [top-gutter] repeat(8, 64px) [bottom-gutter] 1fr [bottom];
+    justify-content: center;
+    margin: 0 -2%;
+    transform: rotate(-12deg) skew(-12deg);
+}
+
+/* Padding */
+.padding-top--64 {
+    padding-top: 64px;
+}
