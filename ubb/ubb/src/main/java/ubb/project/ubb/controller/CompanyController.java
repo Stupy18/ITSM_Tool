@@ -13,7 +13,7 @@ import ubb.project.ubb.service.CompanyRegistrationService;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/companies")
 public class CompanyController {
 
     private final CompanyRegistrationService companyRegistrationService;
