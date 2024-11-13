@@ -1,0 +1,151 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Creating Company Table -->
+    <changeSet id="1" author="miai">
+        <createTable tableName="company">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="company_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Creating Project Table -->
+    <changeSet id="2" author="user">
+        <createTable tableName="project">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="project_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="company_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_project_company" referencedTableName="company" referencedColumnNames="id"/>
+            </column>
+            <column name="start_date" type="DATE"/>
+            <column name="end_date" type="DATE"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Creating User Table -->
+    <changeSet id="3" author="user">
+        <createTable tableName="user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="company_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_user_company" referencedTableName="company" referencedColumnNames="id"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Creating Role Table -->
+    <changeSet id="4" author="user">
+        <createTable tableName="role">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Creating UserRoles Join Table -->
+    <changeSet id="5" author="user">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_userroles_user" referencedTableName="user" referencedColumnNames="id"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_userroles_role" referencedTableName="role" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="user_roles" columnNames="user_id, role_id" constraintName="pk_user_roles"/>
+    </changeSet>
+
+    <!-- Creating ProjectUsers Join Table -->
+    <changeSet id="6" author="user">
+        <createTable tableName="project_users">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_projectusers_user" referencedTableName="user" referencedColumnNames="id"/>
+            </column>
+            <column name="project_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_projectusers_project" referencedTableName="project" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="project_users" columnNames="user_id, project_id" constraintName="pk_project_users"/>
+    </changeSet>
+
+    <!-- Creating File Table -->
+    <changeSet id="7" author="user">
+        <createTable tableName="file">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="project_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_file_project" referencedTableName="project" referencedColumnNames="id"/>
+            </column>
+            <column name="uploaded_by" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_file_user" referencedTableName="user" referencedColumnNames="id"/>
+            </column>
+            <column name="file_name" type="VARCHAR(255)"/>
+            <column name="file_type" type="VARCHAR(50)"/>
+            <column name="file_content" type="BLOB"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Creating BugTicket Table -->
+    <changeSet id="8" author="user">
+        <createTable tableName="bug_ticket">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_bugticket_user_created" referencedTableName="user" referencedColumnNames="id"/>
+            </column>
+            <column name="assigned_to" type="BIGINT">
+                <constraints foreignKeyName="fk_bugticket_user_assigned" referencedTableName="user" referencedColumnNames="id"/>
+            </column>
+            <column name="project_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_bugticket_project" referencedTableName="project" referencedColumnNames="id"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="priority" type="VARCHAR(50)"/>
+            <column name="status" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Creating Comment Table -->
+    <changeSet id="9" author="user">
+        <createTable tableName="comment">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ticket_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_comment_bugticket" referencedTableName="bug_ticket" referencedColumnNames="id"/>
+            </column>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_comment_user" referencedTableName="user" referencedColumnNames="id"/>
+            </column>
+            <column name="content" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>
