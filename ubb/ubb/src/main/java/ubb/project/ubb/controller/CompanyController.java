@@ -20,7 +20,7 @@ public class CompanyController {
 
     public CompanyController(CompanyRegistrationService companyRegistrationService) { this.companyRegistrationService = companyRegistrationService; }
 
-    @PostMapping("/register")
+    @PostMapping("/registering")
     public ResponseEntity<Map<String, String>> registerCompany(@RequestBody CompanyRegistrationDto companyRegistrationDto)
     {
         try{
