@@ -11,7 +11,6 @@ import {
     LockOutlined,
     UserOutlined,
   } from "@ant-design/icons";
-import React from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
