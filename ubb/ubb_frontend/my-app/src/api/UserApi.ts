@@ -2,6 +2,7 @@
 import { JwtLoginDto } from "../dto/JwtLoginDto.ts";
 import { LoginRequestDto } from "../dto/LoginRequestDto";
 import { LoginResponseDto } from "../dto/LoginResponseDto";
+import { UserRegistrationDto } from "../dto/UserRegistrationDto.ts";
 import { apiSlice } from "./ApiSlice.ts";
 
 const baseUrl = "http://localhost:8080";
@@ -15,6 +16,15 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
 
+
+    register: builder.mutation<void, { userRequest: UserRegistrationDto }>({
+      query: ({ userRequest }) => ({
+        url: `${baseUrl}/register`,
+        method: "POST",
+        body: userRequest,
+      }),
+    }),
+
     // getUsers: builder.query<ListUserDto[], void>({         //we'll implement this later
     //   query: () => baseUrl + `/users`,
     // }),
@@ -23,5 +33,6 @@ export const userApi = apiSlice.injectEndpoints({
 
 export const { 
     useLoginMutation, 
+    useRegisterMutation,
     //useGetUsersQuery,
      } = userApi;

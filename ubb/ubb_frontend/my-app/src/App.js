@@ -3,8 +3,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../src/api/store.js'; 
-import LoggedPage from '../src/page/LoggedPage.tsx';
-import LoginPage from '../src/page/LoginPage.tsx';
+import LoggedPage from '../src/pages/LoggedPage.tsx';
+import LoginPage from '../src/pages/Login/LoginPage.tsx';
+import RegisterUserPage from '../src/pages/Register/UserRegistrationPage.tsx';
+import RegisterCompanyPage from '../src/pages/Register/CompanyRegistrationPage.tsx';
+
 
 function App() {
   return (
@@ -13,6 +16,8 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/logged" element={<LoggedPage />} />
+          <Route path="/register" element={<RegisterUserPage />} />
+          <Route path="/company/register" element={<RegisterCompanyPage />} />
         </Routes>
       </Router>
     </Provider>
