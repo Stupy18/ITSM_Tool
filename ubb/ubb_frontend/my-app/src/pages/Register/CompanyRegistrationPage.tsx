@@ -3,6 +3,8 @@ import { useRegisterCompanyMutation } from "../../api/CompanyApi.ts";
 import { CompanyRegistrationDto } from "../../dto/CompanyRegistrationDto.ts";
 import React from "react";
 import { ApartmentOutlined, LoadingOutlined } from "@ant-design/icons";
+import './RegistrationPage.css';
+
 
 interface RegistrationFormItems {
   companyName: string;
@@ -25,7 +27,8 @@ export default function Register() {
   const errorMessage = error && 'data' in error && error.data != null && (error.data as { message?: string }).message;
 
   return (
-    <div className="regiser-root">
+
+    <div className="register-root">
 
         {/* Background Section */}
         <div className="box-root flex-flex flex-direction--column" style={{ minHeight: '100vh', flexGrow: 1 }}>
@@ -94,33 +97,34 @@ export default function Register() {
           <div className="title">
             <h1>Welcome to our app</h1>
           </div>
-    <Form
-      id="registerForm"
-      layout="vertical"
-      form={form}
-      onFinish={handleOnSubmit}
-      className="register-form"
-    >
-      <Form.Item label="Company Name" name="companyName" 
-       rules={[{ required: true, message: "You must specify a company name!" }]}>
-        <Input prefix={<ApartmentOutlined/>} className="form-input" />
-      </Form.Item>
 
-      <Button
-        key="submit"
-        htmlType="submit"
-        form="registerForm"
-        type="primary"
-        className="register-button"
-      >
-        {isLoading ? <LoadingOutlined /> : <span>Register</span>}
-      </Button>
+          <Form
+            id="registerForm"
+            layout="vertical"
+            form={form}
+            onFinish={handleOnSubmit}
+            className="register-form"
+          >
+            <Form.Item label="Company Name" name="companyName" 
+            rules={[{ required: true, message: "You must specify a company name!" }]}>
+              <Input prefix={<ApartmentOutlined/>} className="form-input" />
+            </Form.Item>
 
-      {isSuccess && <p>Company Registration successful!</p>}
-      {isError && <p>{errorMessage || "Company Registration failed."}</p>}
-    </Form>
+            <Button
+              key="submit"
+              htmlType="submit"
+              form="registerForm"
+              type="primary"
+              className="register-button"
+            >
+              {isLoading ? <LoadingOutlined /> : <span>Register</span>}
+            </Button>
 
-    </div>
-    </div>
-  );
-}
+            {isSuccess && <p>Company Registration successful!</p>}
+            {isError && <p>{errorMessage || "Company Registration failed."}</p>}
+          </Form>
+
+          </div>
+      </div>
+    );
+  }
