@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ubb.project.ubb.data.Project;
-
 import ubb.project.ubb.dto.ProjectDto;
 import ubb.project.ubb.service.ProjectService;
 

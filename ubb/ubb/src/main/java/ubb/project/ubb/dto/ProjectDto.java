@@ -11,6 +11,4 @@ public class ProjectDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private Set<Long> userIds;
-
-
 }
