@@ -10,7 +10,7 @@ import ubb.project.ubb.dto.EmailDetailsDto;
 import ubb.project.ubb.service.EmailService;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:8080", "http://127.0.0.1:8080", "http://127.0.0.1:4200/**", "http://localhost:4200/**", "http://localhost:4200", "http://127.0.0.1:4200" }, maxAge = 3600)
+@CrossOrigin(origins = {"http://localhost:8080", "http://127.0.0.1:8080", "http://127.0.0.1:3000/**", "http://localhost:4200/**", "http://localhost:4200", "http://127.0.0.1:4200" }, maxAge = 3600)
 @RequestMapping(path = {"/email/to"})
 public class EmailController {
 

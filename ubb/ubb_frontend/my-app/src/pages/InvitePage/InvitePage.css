@@ -1,0 +1,121 @@
+.invite-page {
+  font-family: "Arial", sans-serif;
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.recipient-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.recipient-toggle button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 16px;
+  color: #555;
+  background: #e0e0e0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.recipient-toggle button.active {
+  background: #007bff;
+  color: white;
+}
+
+.recipient-toggle button:hover:not(.active) {
+  background: #d0d0d0;
+}
+
+.form-container {
+  margin-top: 20px;
+  text-align: left;
+}
+
+form label {
+  display: block;
+  margin: 15px 0;
+  font-weight: bold;
+  color: #333;
+}
+
+form label span {
+  display: block;
+  margin-bottom: 5px;
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+form input.error-input {
+  border-color: #e63946;
+}
+
+form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.error {
+  font-size: 0.85rem;
+  color: #e63946;
+  margin-top: 5px;
+}
+
+.button-group {
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.loading {
+  color: #007bff;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.message {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: green;
+}
