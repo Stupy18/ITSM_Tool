@@ -19,8 +19,8 @@ public class Company {
     @Column(nullable = false)
     private String companyName;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<User> users = new HashSet<>();
+//    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<User> users = new HashSet<>();
 
 
 }

@@ -18,7 +18,7 @@ public class BugTicket {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    private String name;
+    private String title;
 
     private String description;
 
