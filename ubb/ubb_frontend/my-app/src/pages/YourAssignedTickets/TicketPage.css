@@ -1,0 +1,18 @@
+body {
+    background: #f6f9fc;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .ant-layout-content {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ant-table {
+    border-radius: 8px;
+  }
+  
+  .ant-typography {
+    color: #555;
+  }
+  

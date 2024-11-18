@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { LocalStorageEnum } from "../enum/LocalStorageEnum.tsx";
 import {useNavigate} from "react-router-dom";
 import "./LoggedPage.css"
+import React from "react";
 
 
 export default function LoggedPage(){
