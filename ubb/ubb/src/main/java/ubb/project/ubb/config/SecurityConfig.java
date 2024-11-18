@@ -29,6 +29,7 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher("/socket/**")).permitAll()
                         .requestMatchers("/email/to/**").permitAll()
                         .requestMatchers("/files/upload").permitAll()
+                        .requestMatchers("/bugticket/**").permitAll()
                         .requestMatchers("/files/download/**").permitAll())
 
                 .authorizeHttpRequests(request -> request.requestMatchers(antMatcher("/**")).authenticated())

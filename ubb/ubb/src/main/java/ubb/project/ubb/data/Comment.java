@@ -18,8 +18,8 @@ public class Comment {
     private BugTicket bugTicket;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "created_by")
+    private User createdBy;
 
     private String content;
 
