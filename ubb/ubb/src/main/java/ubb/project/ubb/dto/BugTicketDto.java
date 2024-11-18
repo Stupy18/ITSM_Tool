@@ -10,7 +10,7 @@ public class BugTicketDto {
     private Long id;
 
 
-    private Long projectId;
+    private TinyProjectDto project;
 
     private String title;
 
@@ -20,9 +20,9 @@ public class BugTicketDto {
 
     private String status;
 
-    private Long createdById;
+    private TinyUserDto createdBy;
 
-    private Long assignedToId;
+    private TinyUserDto assignedTo;
 
     private List<Long> commentsIds;
 }
