@@ -12,10 +12,11 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color: #5469d4;
+        color: var(--primary-blue);
         position: absolute;
+        font-size: 3rem;
         left: 50%;
-        top: 20%;
+        top: 15%;
         transform: translate(-50%, -50%);
     }
     
@@ -29,11 +30,15 @@
         padding: 2rem;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
         border-radius: 10px;
+
+        a{
+            color: var(--primary-blue);
+        }
     
         .login-button{
             width: 100%;
             margin-top: 1em;
-            background-color: #5469d4;
+            background-color: var(--primary-blue);
             font-size: 1.2em;
         }
 

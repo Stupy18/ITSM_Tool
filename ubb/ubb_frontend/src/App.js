@@ -9,7 +9,8 @@ import RegisterCompanyPage from '../src/pages/Register/CompanyRegistrationPage.t
 import TicketPage from './pages/YourAssignedTickets/TicketPage.tsx';
 import InvitePage from './pages/InvitePage/InvitePage.tsx';
 import LoggedPage from './pages/LoggedPage.tsx';
-
+import ProjectList
+ from './pages/ProjectsPage/Projects.tsx';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="logged" element={<LoggedPage />} />
             <Route path="tickets" element={<TicketPage />} />
             <Route path="invite" element={<InvitePage />} />
+            <Route path='projects' element={<ProjectList />} />
 
           </Route>
         </Routes>

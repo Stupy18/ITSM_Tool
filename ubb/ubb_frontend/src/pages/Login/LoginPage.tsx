@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 import './LoginPage.css';
 
 
-
 interface FormItemIndexes {
     email: string;
     password: string;
@@ -118,10 +117,7 @@ export default function Login() {
             </div>
           </div>
 
-
-          <div className="title">
-            <h1>Welcome to our app</h1>
-          </div>
+          <h1 className="title">Welcome to our app</h1>
 
           {/* Form Section */}
           <Form
@@ -143,10 +139,10 @@ export default function Login() {
               }
             />
           </Form.Item>
-          <div className="field-checkbox">
+          {/* <div className="field-checkbox">
             <input type="checkbox" id="keepLoggedIn" name="keepLoggedIn"/>
             <label>Keep me logged in</label>
-          </div>
+          </div> */}
 
           <Button
             key="submit"

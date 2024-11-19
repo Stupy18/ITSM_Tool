@@ -16,21 +16,29 @@
   }
   
   .navbar-brand {
-    font-size: 1.5rem;
     font-weight: bold;
+    cursor: pointer;
+    
+    h2{
+      font-size: 1.5rem;
+    }
   }
   
   .nav-links {
     list-style: none;
     display: flex;
     gap: 1.5rem;
+
+    li {
+      cursor: pointer;
+      color: #ddd;
+      transition: color 0.3s;
+
+      .icon{
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        margin-top: -0.1rem;
+      }
+    }
   }
-  
-  .nav-links li {
-    cursor: pointer;
-    color: #ddd;
-    transition: color 0.3s;
-  }
-  
-  .nav
   

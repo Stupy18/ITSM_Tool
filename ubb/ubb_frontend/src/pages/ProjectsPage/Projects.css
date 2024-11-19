@@ -1,0 +1,36 @@
+/* ProjectList.css */
+.loading{
+    position: absolute;
+    font-size: 7rem;
+    color: var(--primary-blue);
+    top: 50%;
+    left: 50%;
+}
+.projects-container{
+    width: 90%;
+    margin: 1rem auto;
+    display: flex; 
+
+    .project-card {
+        border: 1px solid #ddd;
+        padding: 1rem;
+        margin: 1rem;
+        max-width: 450px;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        transition: box-shadow 0.2s ease-in-out;
+        list-style: none;
+    }
+    
+    .project-card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .project-card h2 {
+        margin: 0 0 10px;
+    }
+    
+    .project-card p {
+        margin: 5px 0;
+    }
+}
