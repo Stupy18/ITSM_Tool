@@ -8,7 +8,7 @@ import RegisterUserPage from '../src/pages/Register/UserRegistrationPage.tsx';
 import RegisterCompanyPage from '../src/pages/Register/CompanyRegistrationPage.tsx';
 import TicketPage from './pages/YourAssignedTickets/TicketPage.tsx';
 import InvitePage from './pages/InvitePage/InvitePage.tsx';
-import LoggedPage from './pages/LoggedPage.tsx';
+import LoggedPage from './pages/LoggedPage/LoggedPage.tsx';
 import ProjectList
  from './pages/ProjectsPage/Projects.tsx';
 
