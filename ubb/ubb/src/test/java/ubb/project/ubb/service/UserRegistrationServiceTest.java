@@ -12,6 +12,8 @@ import ubb.project.ubb.dto.UserRegistrationDto;
 import ubb.project.ubb.exception.*;
 import ubb.project.ubb.repository.IUserRepository;
 
+import java.util.Optional;
+
 class UserRegistrationServiceTest {
 
     @Mock
@@ -38,7 +40,7 @@ class UserRegistrationServiceTest {
     void testRegisterUser_emailInUse() {
         UserRegistrationDto userDto = new UserRegistrationDto("test@example.com", "password123", "Test User");
 
-        when(userRepository.findUserByEmail(userDto.getEmail())).thenReturn(new User());
+        when(userRepository.findUserByEmail(userDto.getEmail())).thenReturn(Optional.of(new User()));
 
         assertThrows(EmailInUseException.class, () -> userRegistrationService.registerUser(userDto));
     }
