@@ -33,15 +33,19 @@ export default function Layout() {
           <li onClick={() => navigate("/projects")}>Projects</li>
           <li onClick={() => navigate("/tickets")}>Tickets</li>
           <li onClick={() => navigate("/invite")}>Invite</li>
+          <li>
+            <UserOutlined className="icon" onClick={() => navigate("/profile")}/>
+          </li>
+
           <li onClick={() => navigate("/invite")}>
-            <UserOutlined className="icon" onClick={() => navigate("/invite")}/>
+            {/*<UserOutlined className="icon" onClick={() => navigate("/profile")}/>*/}
             <BellOutlined className="icon" onClick={() => navigate("/invite")}/>
-            <LogoutOutlined className="icon" onClick={handleLogout()}/> 
+            {/*<LogoutOutlined className="icon" onClick={handleLogout()}/> */}
           </li>
         </ul>
       </nav>
       <main className="main-content">
-        <Outlet /> {/* Render child components here */}
+        <Outlet/> {/* Render child components here */}
       </main>
     </div>
   );
