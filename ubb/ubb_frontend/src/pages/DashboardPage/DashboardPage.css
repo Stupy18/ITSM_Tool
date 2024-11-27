@@ -1,0 +1,13 @@
+/* DashboardPage.css */
+
+/* General Page Layout */
+.dashboard-page {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f6f9fc;
+    color: #333;
+    padding: 2rem;
+    text-align: center;
+}

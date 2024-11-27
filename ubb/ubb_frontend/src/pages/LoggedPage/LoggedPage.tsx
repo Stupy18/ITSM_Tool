@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+// @ts-ignore
 import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
 import { useNavigate } from "react-router-dom";
 import "./LoggedPage.css";
