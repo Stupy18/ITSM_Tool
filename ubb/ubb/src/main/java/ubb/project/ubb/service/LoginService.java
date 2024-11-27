@@ -1,6 +1,10 @@
 package ubb.project.ubb.service;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import ubb.project.ubb.config.ITSMUserDetails;
 import ubb.project.ubb.data.Role;
 import ubb.project.ubb.data.User;
 import ubb.project.ubb.dto.LoginRequestDto;
@@ -16,21 +20,28 @@ import java.util.List;
 public class LoginService {
     private final IUserRepository repository;
 
-    public LoginService(IUserRepository repository) {
+    private final AuthenticationManager authenticationManager;
+
+    public LoginService(IUserRepository repository, AuthenticationManager authenticationManager) {
         this.repository = repository;
+        this.authenticationManager = authenticationManager;
     }
 
     public LoginResponseDto loginResponse(LoginRequestDto requestDto) throws NotMatchException, NotExistsException {
-        User user = this.repository.findUserByEmail(requestDto.getEmail());
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        requestDto.getEmail(),
+                        requestDto.getPassword()
+                )
+        );
 
-        if(user != null){
-            if(user.getPassword().equals(requestDto.getPassword())){
-                return new LoginResponseDto(user.getId(), user.getEmail(), user.getName(), user.getRoles().stream().map((Role role)->{return role.getId();}).toList());
-            }
-            throw new NotMatchException("Password doesn't match");
-        }
-        else{
-            throw new NotExistsException("Email doesn't exist");
-        }
+        ITSMUserDetails user = (ITSMUserDetails) authentication.getPrincipal();
+
+        return new LoginResponseDto(
+                user.getUser().getId(),
+                user.getUser().getEmail(),
+                user.getUser().getName(),
+                user.getUser().getRoles().stream().map(Role::getId).toList()
+        );
     }
 }

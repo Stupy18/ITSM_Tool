@@ -4,9 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ubb.project.ubb.data.RoleEnum;
+import ubb.project.ubb.filter.JwtFilter;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -19,23 +25,26 @@ public class SecurityConfig {
     private AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request.requestMatchers(antMatcher(HttpMethod.OPTIONS)).permitAll()
-                        .requestMatchers(antMatcher("/login")).permitAll()
-                        .requestMatchers(antMatcher("/register")).permitAll()
-                        .requestMatchers(antMatcher("/company/register")).permitAll()
-                        .requestMatchers(antMatcher("/login/healthcheck")).permitAll()
-                        .requestMatchers(antMatcher("/socket/**")).permitAll()
-                        .requestMatchers("/email/to/**").permitAll()
-                        .requestMatchers("/files/upload").permitAll()
-                        .requestMatchers("/bugticket/**").permitAll()
-                        .requestMatchers("/files/download/**").permitAll())
-
-                .authorizeHttpRequests(request -> request.requestMatchers(antMatcher("/**")).authenticated())
+                        .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers("/company/registering").hasAuthority("ADMIN")
+                        .anyRequest().authenticated()
+                )
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-        ;
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new NoOpPasswordEncoder();
     }
 
 

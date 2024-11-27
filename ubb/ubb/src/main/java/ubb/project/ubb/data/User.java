@@ -1,9 +1,12 @@
 package ubb.project.ubb.data;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,7 +34,8 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles = new HashSet<>();
+    // bag pl daca stiu de ce, dar nu merge cu set<>.
+    private List<Role> roles = new ArrayList<>();
 
 
 }

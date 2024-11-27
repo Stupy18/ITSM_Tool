@@ -2,12 +2,12 @@ package ubb.project.ubb.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ubb.project.ubb.config.JwtTokenService;
 import ubb.project.ubb.dto.JwtInfoDto;
 import ubb.project.ubb.dto.LoginRequestDto;
 import ubb.project.ubb.dto.LoginResponseDto;
 import ubb.project.ubb.exception.NotExistsException;
 import ubb.project.ubb.exception.NotMatchException;
+import ubb.project.ubb.service.JwtTokenService;
 import ubb.project.ubb.service.LoginService;
 
 @RestController
