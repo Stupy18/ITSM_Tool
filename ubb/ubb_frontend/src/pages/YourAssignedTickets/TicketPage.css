@@ -1,18 +1,117 @@
-body {
-    background: #f6f9fc;
-    margin: 0;
-    font-family: 'Arial', sans-serif;
+/* Background general */
+.ticket-root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f8ff, #eaf1fc);
+  padding: 20px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Container */
+.ticket-container {
+  width: 80%;
+  max-width: 1000px;
+  background: linear-gradient(145deg, #ffffff, #f0f4ff);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  padding: 30px 40px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ticket-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Titlu */
+.ticket-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #3b5998;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  animation: slideDown 1s ease;
+}
+
+/* Spinner */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.error-message {
+  text-align: center;
+  color: #ff4d4f;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Tabel */
+.ticket-table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Stiluri tabel Ant Design */
+.ant-table {
+  border-radius: 8px !important;
+  overflow: hidden;
+  background: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.ant-table:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.ant-table-thead > tr > th {
+  background-color: #f0f4ff !important;
+  color: #3b5998 !important;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 2px solid #e0e6f7 !important;
+}
+
+.ant-table-tbody > tr:hover {
+  background: rgba(59, 89, 152, 0.1) !important;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ant-table-tbody > tr > td {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+/* Paginație */
+.ant-table-pagination {
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* Efecte hover și animații */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
   }
-  
-  .ant-layout-content {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  to {
+      opacity: 1;
   }
-  
-  .ant-table {
-    border-radius: 8px;
+}
+
+@keyframes slideDown {
+  from {
+      transform: translateY(-20px);
+      opacity: 0;
   }
-  
-  .ant-typography {
-    color: #555;
+  to {
+      transform: translateY(0);
+      opacity: 1;
   }
-  
+}
