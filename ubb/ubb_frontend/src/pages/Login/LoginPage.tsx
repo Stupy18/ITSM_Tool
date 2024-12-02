@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import './LoginPage.css';
 
 
+
 interface FormItemIndexes {
     email: string;
     password: string;
@@ -24,33 +25,34 @@ interface FormItemIndexes {
 
 export default function Login() {
     const [form] = Form.useForm();
-    const [user, setUser] = useState<LoginResponseDto>();
     const [loginUser, { isError, data, isLoading }] = useLoginMutation();
     const navigate = useNavigate();
 
     const handleOnSubmit = (formItems: FormItemIndexes) => {
         const user: LoginRequestDto = {
-          email: formItems.email,
-          password: formItems.password,
+            email: formItems.email,
+            password: formItems.password,
         };
 
         loginUser({ userRequest: user })
-          .unwrap()
-          .then((data) => {
-            const decoded : LoginResponseDto = jwtDecode(data.jwt);
-            localStorage.setItem(LocalStorageEnum.USER_NAME, JSON.stringify(decoded.user));
-            localStorage.setItem(LocalStorageEnum.USER_ID, JSON.stringify(decoded.id));
-            navigate("/logged");
+            .unwrap()
+            .then((data) => {
+                const decoded: LoginResponseDto = jwtDecode(data.jwt);
 
-            
-          })
-          .catch((error) => console.log(error));
+                console.log('Decoded JWT:', decoded);
 
 
+                localStorage.setItem(LocalStorageEnum.JWT_TOKEN, data.jwt);
+                localStorage.setItem(LocalStorageEnum.USER_NAME, JSON.stringify(decoded.user));
+                localStorage.setItem(LocalStorageEnum.USER_ID, JSON.stringify(decoded.id));
 
-      };
+                navigate("/logged");
+            })
+            .catch((error) => console.log(error));
+    };
 
-      return(
+
+    return(
 
         <div className="login-root">
 
