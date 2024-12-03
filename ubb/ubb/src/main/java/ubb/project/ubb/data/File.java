@@ -23,4 +23,8 @@ public class File {
 
     private String fileType;
 
+    @ManyToOne
+    @JoinColumn(name = "uploaded_by", nullable = false)
+    private User uploadedBy;
+
 }

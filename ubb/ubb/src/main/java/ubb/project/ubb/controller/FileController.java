@@ -13,7 +13,6 @@ import ubb.project.ubb.service.FileService;
 import java.io.IOException;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:8080", "http://127.0.0.1:8080", "http://127.0.0.1:4200/**", "http://localhost:4200/**", "http://localhost:4200", "http://127.0.0.1:4200" }, maxAge = 3600)
 @RequestMapping("/files")
 public class FileController {
 
