@@ -1,29 +1,32 @@
 package ubb.project.ubb.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ubb.project.ubb.data.Project;
 import ubb.project.ubb.data.User;
 import ubb.project.ubb.dto.ProjectDto;
+import ubb.project.ubb.mapper.ProjectMapper;
 import ubb.project.ubb.repository.CompanyRepository;
 import ubb.project.ubb.repository.IUserRepository;
 import ubb.project.ubb.repository.ProjectRepository;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class ProjectService {
 
-    @Autowired
     private ProjectRepository projectRepository;
 
-    @Autowired
     private IUserRepository userRepository;
 
-    @Autowired
     private CompanyRepository companyRepository;
+
+    private ProjectMapper mapper;
 
     public Project createProject(ProjectDto projectDto, Long companyId) {
         Project project = new Project();
@@ -41,5 +44,10 @@ public class ProjectService {
 
     public List<Project> findAllByCompanyId(Long companyId) {
         return projectRepository.findAllByCompanyId(companyId);
+    }
+
+    public ProjectDto findById(Long id) {
+        Optional<Project> project = projectRepository.findById(id);
+        return project.map(value -> mapper.entityToDto(value)).orElse(null);
     }
 }

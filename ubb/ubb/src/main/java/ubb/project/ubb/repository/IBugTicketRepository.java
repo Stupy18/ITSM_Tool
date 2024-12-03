@@ -10,4 +10,6 @@ import java.util.List;
 public interface IBugTicketRepository extends JpaRepository<BugTicket,Long> {
 
     List<BugTicket> getBugTicketByAssignedTo_Id(Long id);
+
+    List<BugTicket> findAllByProject_Id(Long id);
 }

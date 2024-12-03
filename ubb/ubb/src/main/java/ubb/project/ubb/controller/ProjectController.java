@@ -33,4 +33,9 @@ public class ProjectController {
         return ResponseEntity.ok(projects);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProjectDto> getProjectById(@PathVariable Long id){
+        return ResponseEntity.ok(projectService.findById(id));
+    }
+
 }
