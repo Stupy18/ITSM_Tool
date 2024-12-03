@@ -119,7 +119,7 @@ export default function Login() {
             </div>
           </div>
 
-          <h1 className="title">Welcome to our app</h1>
+          <h1 className="title">Welcome to your ITSM Tool</h1>
 
           {/* Form Section */}
           <Form

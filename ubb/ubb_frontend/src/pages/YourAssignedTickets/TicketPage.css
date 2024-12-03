@@ -4,16 +4,15 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f8ff, #eaf1fc);
+  background: var(--baby-blue);
   padding: 20px;
   animation: fadeIn 1s ease-in-out;
 }
 
-/* Container */
 .ticket-container {
   width: 80%;
   max-width: 1000px;
-  background: linear-gradient(145deg, #ffffff, #f0f4ff);
+  background: linear-gradient(145deg, #ffffff, var(--baby-grey-accent));
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   padding: 30px 40px;
