@@ -20,4 +20,8 @@ public class BugTicketService {
     public List<BugTicketDto> getByAsignee(Long id) {
         return bugTicketRepository.getBugTicketByAssignedTo_Id(id).stream().map((BugTicket ticket)->{return bugTicketMapper.entityToDto(ticket);}).toList();
     }
+
+    public List<BugTicketDto> getByProject(Long id){
+        return bugTicketRepository.findAllByProject_Id(id).stream().map((BugTicket ticket)->{return bugTicketMapper.entityToDto(ticket);}).toList();
+    }
 }

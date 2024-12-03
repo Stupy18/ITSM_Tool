@@ -3,6 +3,7 @@ package ubb.project.ubb.dto;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -11,4 +12,5 @@ public class ProjectDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private Set<Long> userIds;
+    private List<Long> bugTicketIds;
 }
