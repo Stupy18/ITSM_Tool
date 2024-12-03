@@ -93,12 +93,13 @@ const InvitePage = () => {
   };
 
   return (
-    <motion.div
-      className="invite-page"
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+      <div className="invite-wrapper">
+        <motion.div
+            className="invite-page"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
       <h1>Invite Management</h1>
       <div className="recipient-toggle">
         <button
@@ -204,6 +205,7 @@ const InvitePage = () => {
         {message && <div className="message">{message}</div>}
       </motion.div>
     </motion.div>
+      </div>
   );
 };
 

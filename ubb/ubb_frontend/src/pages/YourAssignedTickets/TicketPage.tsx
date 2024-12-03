@@ -79,7 +79,7 @@ const [currentUserId, setCurrentUserId] = useState<number>();
       
   
     return (
-      <Layout style={{ minHeight: '100vh', background: '#f6f9fc' }}>
+        <Layout style={{ minHeight: '100vh', background: 'var(--baby-blue)' }}>
         <Content style={{ margin: '2rem auto', maxWidth: '800px', padding: '2rem', background: '#fff', borderRadius: '8px' }}>
           <Title level={3} style={{ textAlign: 'center', marginBottom: '2rem' }}>
             Assigned Tickets

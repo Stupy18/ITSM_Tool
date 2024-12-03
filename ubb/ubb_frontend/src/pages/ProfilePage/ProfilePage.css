@@ -1,6 +1,6 @@
 .profile-page {
     font-family: 'Roboto', sans-serif;
-    background: #f6f9fc;
+    background: var(--baby-blue);
     min-height: 100vh;
     padding: 2rem;
     margin: 0;
@@ -10,7 +10,7 @@
 }
 
 .profile-info {
-    background: rgba(255, 255, 255, 0.9);
+    background: #ffffff;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
