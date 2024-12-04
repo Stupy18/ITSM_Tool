@@ -3,7 +3,7 @@ import { CompanyRegistrationDto } from "../dto/CompanyRegistrationDto.ts";
 import { apiSlice } from "./ApiSlice.ts";
 
 const baseUrl = "http://localhost:8080/company";
-export const userApi = apiSlice.injectEndpoints({
+export const companyApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
 
     registerCompany: builder.mutation<void, { request: CompanyRegistrationDto }>({
@@ -18,4 +18,4 @@ export const userApi = apiSlice.injectEndpoints({
 
 export const { 
     useRegisterCompanyMutation,
-    } = userApi;
+    } = companyApi;

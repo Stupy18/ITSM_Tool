@@ -11,8 +11,10 @@ import InvitePage from './pages/InvitePage/InvitePage.tsx';
 import LoggedPage from './pages/LoggedPage/LoggedPage.tsx';
 import ProfilePage from './pages/ProfilePage/ProfilePage.tsx';
 import DashboardPage from './pages/DashboardPage/DashboardPage.tsx';
+import ProjectDashboard from './pages/ProjectDashboard/ProjectDashboard.tsx';
 import ProjectList
  from './pages/ProjectsPage/Projects.tsx';
+
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/register" element={<RegisterUserPage />} />
           <Route path="/company/register" element={<RegisterCompanyPage />} />
+          <Route path="/project_dashboard/:id" element={<ProjectDashboard/>}/>
 
           {/* Routes with the navbar */}
           <Route path="/" element={<Layout />}>
