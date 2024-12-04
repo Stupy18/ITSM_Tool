@@ -22,4 +22,10 @@ public class BugTicketController {
     List<BugTicketDto> getBugTicketsByAssignee(@PathVariable Long id ){
         return service.getByAsignee(id);
     }
+
+    @GetMapping("/creator/{id}")
+    List<BugTicketDto> getBugTicketsByProject(@PathVariable Long id)
+    {
+        return service.getByCreator(id);
+    }
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {LocalStorageEnum} from "../enum/LocalStorageEnum";
+import { LocalStorageEnum } from '../enum/LocalStorageEnum';
 
 const api = axios.create({
     baseURL: 'http://localhost:8080',  // Replace with your API base URL
@@ -8,7 +8,7 @@ const api = axios.create({
 // Request interceptor to add JWT token to headers
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem(LocalStorageEnum.JWT_TOKEN);
+        const token = localStorage.getItem("jwtToken");
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }

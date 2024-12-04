@@ -24,4 +24,8 @@ public class BugTicketService {
     public List<BugTicketDto> getByProject(Long id){
         return bugTicketRepository.findAllByProject_Id(id).stream().map((BugTicket ticket)->{return bugTicketMapper.entityToDto(ticket);}).toList();
     }
+
+    public List<BugTicketDto> getByCreator(Long id){
+        return bugTicketRepository.findAllByCreatedBy_Id(id).stream().map((BugTicket ticket)->{return bugTicketMapper.entityToDto(ticket);}).toList();
+    }
 }

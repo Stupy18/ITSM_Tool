@@ -2,21 +2,35 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProjectDto } from "../../dto/ProjectDto";
 import { useGetProjectByIdQuery } from "../../api/ProjectApi.ts";
-
-
-
+import { data } from "framer-motion/client";
+import api from "../../api/AxiosConfig.ts";
+import { BugTicketDto } from "../../dto/BugTicketDto.ts";
+import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
 
 export default function ProjectDashboard(){
     const { id } = useParams();
-    const [currentProj,setCurrentProj] = useState<ProjectDto>();
-    const getProjectById = useGetProjectByIdQuery;
+    const [ project, setProject ] = useState<ProjectDto>();
+    const [ tickets, setTickets ] = useState<BugTicketDto[]>();
 
-    // const { data: users } = useGetProjectByIdQuery(id);
+    useEffect(() => {
+        const fetchData = async () => {
+            const project = await api.get<ProjectDto>(`http://localhost:8080/api/projects/${id}`);
+            const tickets = await api.get<BugTicketDto[]>(`http://localhost:8080/bugticket/creator/${LocalStorageEnum.USER_ID}`);
+            setProject(project.data);
+            setTickets(tickets.data);
+        };
+        
+    
+        fetchData();
+      }, [id]);
+
+    if(!project)
+        return (<h1>This project does not exist.</h1>);
 
 
     return(
     <>
-        <h1>Welcome to Bashdoard for Project {id}</h1>
+        <h1>Welcome to Cashdoard for { project.projectName }</h1>
 
     </>)
 
