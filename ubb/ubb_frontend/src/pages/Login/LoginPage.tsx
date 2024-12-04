@@ -44,7 +44,7 @@ export default function Login() {
 
                 localStorage.setItem(LocalStorageEnum.JWT_TOKEN, data.jwt);
                 localStorage.setItem(LocalStorageEnum.USER_NAME, JSON.stringify(decoded.user));
-                localStorage.setItem(LocalStorageEnum.USER_ID, JSON.stringify(decoded.id));
+                localStorage.setItem(LocalStorageEnum.USER_ID, JSON.stringify(decoded.sub));
 
                 navigate("/logged");
             })
