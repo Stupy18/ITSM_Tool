@@ -6,6 +6,7 @@ import { data } from "framer-motion/client";
 import api from "../../api/AxiosConfig.ts";
 import { BugTicketDto } from "../../dto/BugTicketDto.ts";
 import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
+import ProjectDashboardTicketEntry from "../../components/ProjectDashboardTicketEntry/ProjectDashboardTicketEntry.tsx";
 
 export default function ProjectDashboard(){
     const { id } = useParams();
@@ -15,7 +16,7 @@ export default function ProjectDashboard(){
     useEffect(() => {
         const fetchData = async () => {
             const project = await api.get<ProjectDto>(`http://localhost:8080/api/projects/${id}`);
-            const tickets = await api.get<BugTicketDto[]>(`http://localhost:8080/bugticket/creator/${LocalStorageEnum.USER_ID}`);
+            const tickets = await api.get<BugTicketDto[]>(`http://localhost:8080/bugticket/creator/${localStorage.getItem(LocalStorageEnum.USER_ID)}`);
             setProject(project.data);
             setTickets(tickets.data);
         };
@@ -31,6 +32,11 @@ export default function ProjectDashboard(){
     return(
     <>
         <h1>Welcome to Cashdoard for { project.projectName }</h1>
+        
+        <h2>Your Tickets:</h2>
+        { tickets ? tickets.map((ticket, i)=>
+                ( <ProjectDashboardTicketEntry key={i} ticket={ticket} /> )
+        ) : null }
 
     </>)
 
