@@ -35,7 +35,7 @@ export default function ProjectDashboard() {
       console.log("Submitting ticket:", ticket);
 
       // Call the API to add the ticket
-      await addTicket({ request: ticket }).unwrap();
+      await addTicket({ request: ticket });
       console.log("Ticket added successfully!");
       setAddIsVisible(false); // Close modal after submission
     } catch (error) {
