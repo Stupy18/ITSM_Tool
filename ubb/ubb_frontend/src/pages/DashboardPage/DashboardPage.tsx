@@ -3,6 +3,7 @@ import "./DashboardPage.css";
 import { useEffect, useState } from "react";
 // @ts-ignore
 import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
+import React from "react";
 import FileUpload from "../DashboardPage/Components/FileUpload.tsx"; // Adjust the path as necessary
 
 export default function DashboardPage() {

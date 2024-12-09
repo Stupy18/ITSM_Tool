@@ -1,0 +1,7 @@
+.write-ticket-button{
+    width: 10%;
+    margin-top: 1em;
+    background-color: var(--primary-blue);
+    font-size: 1.0em;
+    color: white;
+}

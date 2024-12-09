@@ -25,7 +25,7 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/register" element={<RegisterUserPage />} />
           <Route path="/company/register" element={<RegisterCompanyPage />} />
-          <Route path="/project_dashboard/:id" element={<ProjectDashboard/>}/>
+          <Route path="/project_dashboard/:projectId/:userId" element={<ProjectDashboard/>}/>
 
           {/* Routes with the navbar */}
           <Route path="/" element={<Layout />}>
