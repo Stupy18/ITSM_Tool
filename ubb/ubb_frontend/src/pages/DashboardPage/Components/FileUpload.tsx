@@ -4,8 +4,10 @@ import { FileUploadRequestDto } from "../../../dto/FileUploadRequestDto.ts";
 
 const FileUpload = () => {
   const [projectId, setProjectId] = useState<number>(0);
+  const [uploadedBy, setUploadedBy] = useState<number>(0);
   const [file, setFile] = useState<File | null>(null);
-  const [uploadFile, { isLoading, isSuccess, isError }] = useUploadFileMutation();
+  const [uploadFile, { isLoading, isSuccess, isError }] =
+    useUploadFileMutation();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -15,9 +17,12 @@ const FileUpload = () => {
 
   const handleUpload = async () => {
     if (file) {
-      const request: FileUploadRequestDto = { projectId, file };
       try {
-        const response = await uploadFile(request).unwrap();
+        const response = await uploadFile({
+          projectId,
+          uploadedBy,
+          file,
+        }).unwrap();
         console.log("File uploaded successfully", response);
       } catch (error) {
         console.error("Error uploading file:", error);
@@ -35,6 +40,13 @@ const FileUpload = () => {
         placeholder="Project ID"
         value={projectId}
         onChange={(e) => setProjectId(Number(e.target.value))}
+      />
+
+      <input
+        type="number"
+        placeholder="Uploaded By"
+        value={uploadedBy}
+        onChange={(e) => setUploadedBy(Number(e.target.value))}
       />
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload} disabled={isLoading}>

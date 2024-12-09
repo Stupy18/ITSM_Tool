@@ -22,20 +22,15 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    /**
-     * Endpoint to upload a file.
-     *
-     * @param projectId The ID of the project to associate the file with.
-     * @param file      The file to be uploaded.
-     * @return ResponseEntity containing FileResponseDto and HTTP status.
-     */
     @PostMapping("/upload")
     public ResponseEntity<FileResponseDto> uploadFile(
             @RequestParam("projectId") Long projectId,
+            @RequestParam("uploadedBy") Long uploadedBy,
             @RequestParam("file") MultipartFile file) {
         try {
             UploadFileRequestDto requestDto = new UploadFileRequestDto();
             requestDto.setProjectId(projectId);
+            requestDto.setUploadedBy(uploadedBy);
             requestDto.setFile(file);
 
             FileResponseDto responseDto = fileService.uploadFile(requestDto);

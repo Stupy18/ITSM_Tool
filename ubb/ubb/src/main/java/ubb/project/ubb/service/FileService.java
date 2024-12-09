@@ -4,11 +4,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ubb.project.ubb.data.File;
 import ubb.project.ubb.data.Project;
+import ubb.project.ubb.data.User;
 import ubb.project.ubb.dto.file_upload.FileResponseDto;
 import ubb.project.ubb.dto.file_upload.UploadFileRequestDto;
 import ubb.project.ubb.exception.NotExistsException;
 import ubb.project.ubb.repository.IFileRepository;
 import ubb.project.ubb.repository.IProjectRepository;
+import ubb.project.ubb.repository.IUserRepository;
 
 import java.io.IOException;
 
@@ -17,10 +19,12 @@ public class FileService {
 
     private final IFileRepository fileRepository;
     private final IProjectRepository projectRepository;
+    private final IUserRepository userRepository;
 
-    public FileService(IFileRepository fileRepository, IProjectRepository projectRepository) {
+    public FileService(IFileRepository fileRepository, IProjectRepository projectRepository, IUserRepository userRepository) {
         this.fileRepository = fileRepository;
         this.projectRepository = projectRepository;
+        this.userRepository = userRepository;
     }
 
     public FileResponseDto uploadFile(UploadFileRequestDto requestDto) throws NotExistsException, IOException {
@@ -28,11 +32,16 @@ public class FileService {
         Project project = projectRepository.findById(requestDto.getProjectId())
                 .orElseThrow(() -> new NotExistsException("Project with ID " + requestDto.getProjectId() + " does not exist"));
 
+        // Retrieve the associated user
+        User uploadedBy = userRepository.findById(requestDto.getUploadedBy())
+                .orElseThrow(() -> new NotExistsException("User with ID " + requestDto.getUploadedBy() + " does not exist"));
+
         MultipartFile multipartFile = requestDto.getFile();
 
         // Create a new File entity
         File file = new File();
         file.setProject(project);
+        file.setUploadedBy(uploadedBy);
         file.setFileName(multipartFile.getOriginalFilename());
         file.setFileType(multipartFile.getContentType());
         file.setFileContent(multipartFile.getBytes());
