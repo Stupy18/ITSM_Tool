@@ -5,6 +5,7 @@ import org.hibernate.annotations.Comments;
 import org.springframework.stereotype.Component;
 import ubb.project.ubb.data.BugTicket;
 import ubb.project.ubb.data.Comment;
+import ubb.project.ubb.dto.AddableTicketDto;
 import ubb.project.ubb.dto.BugTicketDto;
 import ubb.project.ubb.dto.TinyProjectDto;
 import ubb.project.ubb.dto.TinyUserDto;
@@ -68,6 +69,25 @@ public class BugTicketMapper {
         entity.setComments(dto.getCommentsIds().stream().map((Long id)->{return commentRepository.findById(id).get();}).collect(Collectors.toSet()));
         entity.setAssignedTo(userRepository.findById(dto.getAssignedTo().getId()).get());
         entity.setCreatedBy(userRepository.findById(dto.getCreatedBy().getId()).get());
+        return entity;
+    }
+
+    public BugTicket addableDtoToEntity(AddableTicketDto ticket) {
+        BugTicket entity = new BugTicket();
+        entity.setTitle(ticket.getTitle());
+        entity.setDescription(ticket.getDescription());
+
+        if(projectRepository.findById(ticket.getProjectId()).isPresent())
+            entity.setProject(projectRepository.findById(ticket.getProjectId()).get());
+
+        entity.setPriority(ticket.getPriority());
+        entity.setStatus(ticket.getStatus());
+        entity.setComments(new HashSet<>());
+        entity.setAssignedTo(null);
+
+        if(userRepository.findById(ticket.getCreatedById()).isPresent())
+            entity.setCreatedBy(userRepository.findById(ticket.getCreatedById()).get());
+
         return entity;
     }
 }

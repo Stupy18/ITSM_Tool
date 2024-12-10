@@ -3,10 +3,10 @@ package ubb.project.ubb.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ubb.project.ubb.data.BugTicket;
+import ubb.project.ubb.dto.AddableTicketDto;
 import ubb.project.ubb.dto.BugTicketDto;
 import ubb.project.ubb.service.BugTicketService;
 
@@ -23,9 +23,9 @@ public class BugTicketController {
         return service.getByAsignee(id);
     }
 
-    @GetMapping("/creator/{id}")
-    List<BugTicketDto> getBugTicketsByProject(@PathVariable Long id)
-    {
-        return service.getByCreator(id);
+    @PostMapping("/add")
+    BugTicket addBugTicket(@RequestBody AddableTicketDto ticket){
+        return service.addTicket(ticket);
     }
+
 }

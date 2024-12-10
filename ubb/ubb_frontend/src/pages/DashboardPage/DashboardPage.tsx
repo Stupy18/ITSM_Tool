@@ -3,6 +3,7 @@ import "./DashboardPage.css";
 import { useEffect, useState } from "react";
 // @ts-ignore
 import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
+import React from "react";
 
 export default function DashboardPage() {
     const [username, setUsername] = useState<string>(" ");
