@@ -28,4 +28,9 @@ public class BugTicketController {
         return service.addTicket(ticket);
     }
 
+    @GetMapping("/creator/{id}")
+    List<BugTicketDto> getBugTicketsByProject(@PathVariable Long id) {
+        return service.getByCreator(id);
+    }
+
 }

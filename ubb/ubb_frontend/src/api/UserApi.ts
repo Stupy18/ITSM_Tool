@@ -17,6 +17,14 @@ export const userApi = apiSlice.injectEndpoints({
     }),
 
 
+    loginGuest: builder.mutation<JwtLoginDto, { userId: Number }>({  //this "userRequest" is the request body of the mutation (query)
+      query: ({ userId }) => ({                                      //while the JwtLoginDto will store our response
+        url: `${baseUrl}/login/guest/${userId}`,
+        method: "POST",                //pretty self explanatory
+      }),
+    }),
+
+
     register: builder.mutation<void, { userRequest: UserRegistrationDto }>({
       query: ({ userRequest }) => ({
         url: `${baseUrl}/register`,
@@ -33,6 +41,7 @@ export const userApi = apiSlice.injectEndpoints({
 
 export const { 
     useLoginMutation, 
+    useLoginGuestMutation,
     useRegisterMutation,
     //useGetUsersQuery,
      } = userApi;

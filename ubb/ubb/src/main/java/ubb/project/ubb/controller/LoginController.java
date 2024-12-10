@@ -27,6 +27,13 @@ public class LoginController {
         return new JwtInfoDto(jwtTokenService.createJwtToken(responseDto));
     }
 
+    @PostMapping("/guest/{id}")
+    public JwtInfoDto loginGuestUser(@PathVariable Long id)
+    {
+        LoginResponseDto responseDto = this.service.loginResponseGuest(id);
+        return new JwtInfoDto(jwtTokenService.createJwtToken(responseDto));
+    }
+
     @GetMapping("/healthcheck")
     public ResponseEntity<?> healthcheck() {
         return ResponseEntity.ok().build();

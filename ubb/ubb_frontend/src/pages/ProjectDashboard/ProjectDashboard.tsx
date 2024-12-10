@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProjectDto } from "../../dto/ProjectDto";
 import { useGetProjectByIdQuery } from "../../api/ProjectApi.ts";
@@ -8,6 +8,12 @@ import TextArea from "antd/es/input/TextArea";
 import './ProjectDashboard.css';
 import { AddableTicketDto } from "../../dto/AddableTicketDto.ts";
 import { useAddTicketMutation } from "../../api/BugTicketApi.ts";
+import api from "../../api/AxiosConfig.ts";
+import ProjectDashboardTicketEntry from "../../components/ProjectDashboardTicketEntry/ProjectDashboardTicketEntry.tsx";
+import { useLoginGuestMutation } from "../../api/UserApi.ts";
+import { LoginResponseDto } from "../../dto/LoginResponseDto.ts";
+import { jwtDecode } from "jwt-decode";
+import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
 
 interface FormItems {
   id: number;
@@ -24,6 +30,8 @@ export default function ProjectDashboard() {
   const [currentProj, setCurrentProj] = useState<ProjectDto>();
   const [addIsVisible, setAddIsVisible] = useState<boolean>(false);
   const [addTicket, { isLoading }] = useAddTicketMutation();
+  const [tickets, setTickets] = useState<BugTicketDto[]>([]);
+  const [loginGuest, { isError, data }] = useLoginGuestMutation();
 
   const handleOnSubmit = async (ticket: AddableTicketDto) => {
     try {
@@ -44,6 +52,40 @@ export default function ProjectDashboard() {
     }
   };
 
+  console.log(userId);
+
+  useEffect(() => {
+    loginGuest({ userId: Number(userId) })
+      .unwrap()
+      .then((data) => {
+          const decoded: LoginResponseDto = jwtDecode(data.jwt);
+
+          localStorage.setItem(LocalStorageEnum.JWT_TOKEN, data.jwt);
+          localStorage.setItem(LocalStorageEnum.USER_NAME, JSON.stringify(decoded.user));
+          localStorage.setItem(LocalStorageEnum.USER_ID, decoded.sub);
+      })
+      .catch((error) => console.log(error));
+
+
+      const fetchData = async () => {
+        const project = await api.get<ProjectDto>(`http://localhost:8080/api/projects/${Number(projectId)}`);
+        const tickets = await api.get<BugTicketDto[]>(`http://localhost:8080/bugticket/creator/${Number(userId)}`);
+        setCurrentProj(project.data);
+        setTickets(tickets.data);
+      };
+
+      setInterval(async ()=>{
+        const tickets = await api.get<BugTicketDto[]>(`http://localhost:8080/bugticket/creator/${Number(userId)}`);
+        setTickets(tickets.data);
+      }, 1000)
+    
+      fetchData();
+
+  }, [projectId, userId]);
+
+if(!currentProj)
+    return (<h1>This project does not exist.</h1>);
+
   const handleOnFail = () => {
     console.error("Form submission failed!");
   };
@@ -52,11 +94,19 @@ export default function ProjectDashboard() {
     setAddIsVisible(false); // Close modal on cancel
   };
 
+
+
   return (
     <>
       <h1>
         Welcome to Dashboard for Project {projectId}, user {userId}
       </h1>
+
+      <h2>Your Tickets:</h2>
+      { tickets ? tickets.map((ticket, i)=>
+              ( <ProjectDashboardTicketEntry key={i} ticket={ticket} /> )
+      ) : null }
+
       <Button
         onClick={() => setAddIsVisible(true)}
         className={"write-ticket-button"}

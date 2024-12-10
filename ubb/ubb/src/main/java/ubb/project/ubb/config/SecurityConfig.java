@@ -33,7 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request.requestMatchers(antMatcher(HttpMethod.OPTIONS)).permitAll()
-                        .requestMatchers("/login", "/register","/bugticket/add").permitAll()
+                        .requestMatchers("/login", "/register","/bugticket/add", "/login/guest/**").permitAll()
                         .requestMatchers("/company/registering").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
