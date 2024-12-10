@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request.requestMatchers(antMatcher(HttpMethod.OPTIONS)).permitAll()
                         .requestMatchers("/login", "/register","/bugticket/add").permitAll()
                         .requestMatchers("/company/registering").hasAuthority("ADMIN")
+                        .requestMatchers("/bugticket/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
