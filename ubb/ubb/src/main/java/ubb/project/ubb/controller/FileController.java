@@ -11,6 +11,7 @@ import ubb.project.ubb.exception.NotExistsException;
 import ubb.project.ubb.service.FileService;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/files")
@@ -39,6 +40,22 @@ public class FileController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (IOException e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Endpoint to fetch all files for a specific project.
+     *
+     * @param projectId The ID of the project.
+     * @return ResponseEntity containing the list of FileResponseDto.
+     */
+    @GetMapping("/project/{projectId}/files")
+    public ResponseEntity<List<FileResponseDto>> getProjectFiles(@PathVariable Long projectId) {
+        try {
+            List<FileResponseDto> files = fileService.getFilesByProjectId(projectId);
+            return new ResponseEntity<>(files, HttpStatus.OK);
+        } catch (NotExistsException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 

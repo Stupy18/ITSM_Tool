@@ -10,6 +10,8 @@ import ubb.project.ubb.mapper.FileMapper;
 import ubb.project.ubb.repository.IFileRepository;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -20,21 +22,36 @@ public class FileService {
     private FileMapper mapper;
 
     public FileResponseDto uploadFile(UploadFileRequestDto requestDto) throws NotExistsException, IOException {
-        // Save the file to the repository
         File savedFile = fileRepository.save(mapper.dtoToEntity(requestDto));
-
-        // Return the response DTO
         return new FileResponseDto(
                 savedFile.getId(),
                 savedFile.getProject().getId(),
                 savedFile.getFileName(),
-                savedFile.getFileType()
+                savedFile.getFileType(),
+                savedFile.getUploadedBy().getName()
         );
     }
 
-    // Optional: Method to retrieve a file by ID
     public File getFileById(Long fileId) throws NotExistsException {
         return fileRepository.findById(fileId)
                 .orElseThrow(() -> new NotExistsException("File with ID " + fileId + " does not exist"));
     }
+
+    public List<FileResponseDto> getFilesByProjectId(Long projectId) throws NotExistsException {
+        List<File> files = fileRepository.findByProjectId(projectId);
+        if (files.isEmpty()) {
+            throw new NotExistsException("No files found for Project ID " + projectId);
+        }
+        return files.stream()
+                .map(file -> new FileResponseDto(
+                        file.getId(),
+                        file.getProject().getId(),
+                        file.getFileName(),
+                        file.getFileType(),
+                        file.getUploadedBy().getName()
+                ))
+                .collect(Collectors.toList());
+    }
+
+
 }

@@ -20,7 +20,18 @@ export const fileApi = apiSlice.injectEndpoints({
         };
       },
     }),
+    fetchFilesByProject: builder.query<FileUploadResponseDto[], number>({
+      query: (projectId) => `${baseUrl}/project/${projectId}/files`,
+      // Optional: providesTags for cache invalidation
+      providesTags: (result, error, projectId) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: 'File' as const, id })),
+              { type: 'File', id: 'LIST' },
+            ]
+          : [{ type: 'File', id: 'LIST' }],
+    }),
   }),
 });
 
-export const { useUploadFileMutation } = fileApi;
+export const { useUploadFileMutation, useFetchFilesByProjectQuery } = fileApi;
