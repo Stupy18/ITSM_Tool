@@ -1,8 +1,11 @@
+// @ts-ignore
 import React, { useEffect, useState } from 'react';
 import { Table, Typography, Layout, Spin } from 'antd';
 import './TicketPage.css'; // Add styling for consistency
 import { BugTicketDto } from '../../dto/BugTicketDto';
+// @ts-ignore
 import { useGetTicketsForAssigneeQuery } from '../../api/BugTicketApi.ts';
+// @ts-ignore
 import { LocalStorageEnum } from '../../enum/LocalStorageEnum.tsx';
 
 const { Title } = Typography;
@@ -14,8 +17,8 @@ const [currentUserId, setCurrentUserId] = useState<number>();
 
   // Set the current user ID from localStorage
   useEffect(() => {
-    const userId = parseInt(localStorage.getItem(LocalStorageEnum.USER_ID)!);
-    setCurrentUserId(userId);
+      const userId = localStorage.getItem(LocalStorageEnum.USER_ID)!.replace(/["']/g, '');
+    setCurrentUserId(Number(userId));
   }, []);
 
   // Fetch tickets for the current user using RTK Query
@@ -26,6 +29,8 @@ const [currentUserId, setCurrentUserId] = useState<number>();
   useEffect(() => {
     setAssignedTickets(tickets);
   }, [tickets]);
+
+  console.log(assignedTickets);
   
 
     // Define table columns
