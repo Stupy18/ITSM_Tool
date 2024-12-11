@@ -4,7 +4,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import ubb.project.ubb.config.ITSMUserDetails;
 import ubb.project.ubb.data.Role;
 import ubb.project.ubb.data.RoleEnum;
 import ubb.project.ubb.data.User;
@@ -13,9 +12,6 @@ import ubb.project.ubb.dto.LoginResponseDto;
 import ubb.project.ubb.exception.NotExistsException;
 import ubb.project.ubb.exception.NotMatchException;
 import ubb.project.ubb.repository.IUserRepository;
-
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 public class LoginService {
@@ -51,13 +47,13 @@ public class LoginService {
                 )
         );
 
-        ITSMUserDetails userDetails = (ITSMUserDetails) authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
 
         return new LoginResponseDto(
-                userDetails.getUser().getId(),
-                userDetails.getUser().getEmail(),
-                userDetails.getUser().getName(),
-                userDetails.getUser().getRoles().stream().map(Role::getId).toList()
+                user.getId(),
+                user.getEmail(),
+                user.getName(),
+                user.getRoles().stream().map(Role::getId).toList()
         );
     }
 }

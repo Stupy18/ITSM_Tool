@@ -4,7 +4,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ubb.project.ubb.config.ITSMUserDetails;
 import ubb.project.ubb.data.User;
 import ubb.project.ubb.repository.IUserRepository;
 
@@ -22,15 +21,13 @@ public class ITSMUserDetailsService implements UserDetailsService {
 
 
     // makes more sense
-    public ITSMUserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
-        return (ITSMUserDetails) loadUserByUsername(email);
+    public User loadUserByEmail(String email) throws UsernameNotFoundException {
+        return (User) loadUserByUsername(email);
     }
 
     // username is actually email
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findUserWithRoles(email).orElseThrow(()->new UsernameNotFoundException("E-mail was not found."));
-
-        return new ITSMUserDetails(user);
+        return userRepository.findUserWithRoles(email).orElseThrow(()->new UsernameNotFoundException("E-mail was not found."));
     }
 }
