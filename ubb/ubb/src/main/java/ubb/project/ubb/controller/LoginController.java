@@ -1,5 +1,6 @@
 package ubb.project.ubb.controller;
 
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ubb.project.ubb.dto.JwtInfoDto;
@@ -28,10 +29,16 @@ public class LoginController {
     }
 
     @PostMapping("/guest/{id}")
-    public JwtInfoDto loginGuestUser(@PathVariable Long id)
+    public ResponseEntity<JwtInfoDto> loginGuestUser(@PathVariable Long id)
     {
-        LoginResponseDto responseDto = this.service.loginResponseGuest(id);
-        return new JwtInfoDto(jwtTokenService.createJwtToken(responseDto));
+        try{
+            LoginResponseDto responseDto = service.loginResponseGuest(id);
+            return ResponseEntity.ok().body(new JwtInfoDto(jwtTokenService.createJwtToken(responseDto)));
+        }
+        catch(IllegalArgumentException e)
+        {
+            return ResponseEntity.status(401).body(null);
+        }
     }
 
     @GetMapping("/healthcheck")

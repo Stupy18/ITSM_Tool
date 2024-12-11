@@ -32,16 +32,12 @@ public class LoginService {
         return authenticate(requestDto.getEmail(), requestDto.getPassword());
     }
 
-    public LoginResponseDto loginResponseGuest(Long id)
+    public LoginResponseDto loginResponseGuest(Long id) throws IllegalArgumentException
     {
         User user = repository.findById(id).orElse(null);
 
-        if(user==null)
-            return null;
-
-        if(user.getRoles().stream().noneMatch((x)->x.getRoleName() == RoleEnum.GUEST))
-            // gotta throw exception here but yea
-            return null;
+        if(user == null || user.getRoles().stream().noneMatch((x)->x.getRoleName() == RoleEnum.GUEST))
+            throw new IllegalArgumentException("User doesn't exist or is not a guest.");
 
         return authenticate(user.getEmail(), user.getPassword());
     }
