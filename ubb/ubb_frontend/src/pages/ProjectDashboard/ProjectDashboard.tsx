@@ -65,19 +65,19 @@ export default function ProjectDashboard() {
       })
       .catch((error) => console.log(error));
 
-        const fetchData = async () => {
-          const project = await api.get<ProjectDto>(`http://localhost:8080/api/projects/${Number(projectId)}`);
-          const tickets = await api.get<BugTicketDto[]>(`http://localhost:8080/bugticket/creator/${Number(userId)}`);
-          setCurrentProj(project.data);
-          setTickets(tickets.data);
-        };
-
-        // const tickets = await api.get<BugTicketDto[]>(`http://localhost:8080/bugticket/creator/${Number(userId)}`);
-        // setTickets(tickets.data);
-    
-      setInterval(fetchData, 100);
-
   }, [projectId, userId]);
+
+  useEffect(() =>
+  {
+    const fetchData = async () => {
+      const project = await api.get<ProjectDto>(`http://localhost:8080/api/projects/${Number(projectId)}`);
+      const tickets = await api.get<BugTicketDto[]>(`http://localhost:8080/bugticket/creator/${Number(userId)}`);
+      setCurrentProj(project.data);
+      setTickets(tickets.data);
+    };
+
+    fetchData();
+}, [addIsVisible]);
 
 if(!currentProj)
     return (<h1>This project does not exist.</h1>);
