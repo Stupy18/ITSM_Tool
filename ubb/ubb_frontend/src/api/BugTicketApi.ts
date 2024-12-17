@@ -22,8 +22,15 @@ export const ticketApi = apiSlice.injectEndpoints({
         body: request,
       }),
     }),
+
+
+    getTicketsByCreator: builder.query<BugTicketDto[], number>({
+      query: (creatorId) => ({
+        url: `${baseUrl}/creator/${creatorId}`, // Updated endpoint path to better reflect intent
+        method: "GET"
+    })}),
   }),
 });
 
 
-export const { useGetTicketsForAssigneeQuery, useAddTicketMutation } = ticketApi;
+export const { useGetTicketsForAssigneeQuery, useAddTicketMutation, useGetTicketsByCreatorQuery } = ticketApi;

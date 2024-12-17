@@ -7,107 +7,120 @@ import { Button, Form, Input, Select, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import './ProjectDashboard.css';
 import { AddableTicketDto } from "../../dto/AddableTicketDto.ts";
-import { useAddTicketMutation } from "../../api/BugTicketApi.ts";
-import api from "../../api/AxiosConfig.ts";
+import { useAddTicketMutation, useGetTicketsByCreatorQuery } from "../../api/BugTicketApi.ts";
 import ProjectDashboardTickets from "../../components/ProjectDashboardTicketEntry/ProjectDashboardTickets.tsx";
 import { useLoginGuestMutation } from "../../api/UserApi.ts";
 import { LoginResponseDto } from "../../dto/LoginResponseDto.ts";
 import { jwtDecode } from "jwt-decode";
 import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
 
-interface FormItems {
-  id: number;
-  projectId: number;
-  title: string;
-  description: string;
-  priority: string;
-  status: string;
-  createdById: number;
-}
+// interface FormItems {
+//   id: number;
+//   projectId: number;
+//   title: string;
+//   description: string;
+//   priority: string;
+//   status: string;
+//   createdById: number;
+// }
 
 export default function ProjectDashboard() {
-  const { projectId, userId } = useParams();
-  const [currentProj, setCurrentProj] = useState<ProjectDto>();
-  const [addIsVisible, setAddIsVisible] = useState<boolean>(false);
-  const [addTicket, { isLoading }] = useAddTicketMutation();
-  const [tickets, setTickets] = useState<BugTicketDto[]>([]);
-  const [loginGuest, { isError, data }] = useLoginGuestMutation();
+
+	const { projectId, userId } = useParams() as any as { projectId: Number, userId: Number };
+	const [ loginGuest ] = useLoginGuestMutation();
+	const [ loggedIn, setLoggedIn ] = useState<boolean>(false);
+	const [currentProj, setCurrentProj] = useState<ProjectDto>();
+	const [addIsVisible, setAddIsVisible] = useState<boolean>(false);
+	const [addTicket, { isLoading }] = useAddTicketMutation();
+
+	// fetch data from backend, only run when user is logged in
+	const { data: ticketData } = useGetTicketsByCreatorQuery(Number(userId), { skip: !loggedIn });
+	const { data: projectData } = useGetProjectByIdQuery(String(projectId), { skip: !loggedIn });
+
+	// set project when it's retrieved
+	useEffect( ()=> {
+	if(projectData) setCurrentProj(projectData);
+	}, [projectData])
 
 
-  const handleOnSubmit = async (ticket: AddableTicketDto) => {
-    try {
-      // Add additional properties to the ticket
-      ticket.createdById = +userId!;
-      ticket.projectId = +projectId!;
-      ticket.status = "OPEN";
+	useEffect(()=>
+	{
+    // spring security ii prost si iti da jwt token expired daca ai unu chiar daca /login/guest ii permitAll asa ca stergem tot
+    localStorage.removeItem(LocalStorageEnum.JWT_TOKEN);
+    localStorage.removeItem(LocalStorageEnum.USER_NAME);
+    localStorage.removeItem(LocalStorageEnum.USER_ID);
 
-      console.log("Submitting ticket:", ticket);
+	// log user in as guest
+	loginGuest({ userId: Number(userId) })
+		.unwrap()
+		.then((data) => {
+			const decoded: LoginResponseDto = jwtDecode(data.jwt);
 
-      // Call the API to add the ticket
-      await addTicket({ request: ticket });
-      console.log("Ticket added successfully!");
-      setAddIsVisible(false); // Close modal after submission
-    } catch (error) {
-      console.error("Error adding ticket:", error);
-      console.log("Failed to add the ticket. Please try again.");
-    }
-  };
+			localStorage.setItem(LocalStorageEnum.JWT_TOKEN, data.jwt);
+			localStorage.setItem(LocalStorageEnum.USER_NAME, String(decoded.user));
+			localStorage.setItem(LocalStorageEnum.USER_ID, decoded.sub);
 
-  useEffect(() => {
-    loginGuest({ userId: Number(userId) })
-      .unwrap()
-      .then((data) => {
-          const decoded: LoginResponseDto = jwtDecode(data.jwt);
+			setLoggedIn(true);
+		})
+		.catch((error) => console.log(error));
 
-          localStorage.setItem(LocalStorageEnum.JWT_TOKEN, data.jwt);
-          localStorage.setItem(LocalStorageEnum.USER_NAME, String(decoded.user));
-          localStorage.setItem(LocalStorageEnum.USER_ID, decoded.sub);
-      })
-      .catch((error) => console.log(error));
+      
+	}, [userId, loginGuest])
 
-  }, [projectId, userId]);
 
-  useEffect(() =>
-  {
-    const fetchData = async () => {
-      const project = await api.get<ProjectDto>(`http://localhost:8080/api/projects/${Number(projectId)}`);
-      const tickets = await api.get<BugTicketDto[]>(`http://localhost:8080/bugticket/creator/${Number(userId)}`);
-      setCurrentProj(project.data);
-      setTickets(tickets.data);
-    };
+	// form button handlers
+	const handleOnSubmit = async (ticket: AddableTicketDto) => {
+		try {
+			// Add additional properties to the ticket
+			ticket.createdById = +userId!;
+			ticket.projectId = +projectId!;
+			ticket.status = "OPEN";
 
-    fetchData();
-}, [addIsVisible]);
+			console.log("Submitting ticket:", ticket);
 
-if(!currentProj)
-    return (<h1>This project does not exist.</h1>);
+			// Call the API to add the ticket
+			await addTicket({ request: ticket });
+			console.log("Ticket added successfully!");
+			setAddIsVisible(false); // Close modal after submission
+		} catch (error) {
+			console.error("Error adding ticket:", error);
+			console.log("Failed to add the ticket. Please try again.");
+		}
+	};
 
-  const handleOnFail = () => {
-    console.error("Form submission failed!");
-  };
+	const handleOnFail = () => {
+		console.error("Form submission failed!");
+	};
 
-  const handleOnCancel = () => {
-    setAddIsVisible(false); // Close modal on cancel
-  };
-
+	const handleOnCancel = () => {
+		setAddIsVisible(false); // Close modal on cancel
+	};
+  
 
 
   return (
     <>
       <h1>
-        Welcome to Dashboard for Project {projectId}, {localStorage.getItem(LocalStorageEnum.USER_NAME)}!
+        Welcome to Dashboard for Project {String(projectId)}, {localStorage.getItem(LocalStorageEnum.USER_NAME)}!
       </h1>
 
       <h2>Your Tickets:</h2>
         
-      <ProjectDashboardTickets tickets={tickets} />
-
-      <Button
-        onClick={() => setAddIsVisible(true)}
-        className={"write-ticket-button"}
-      >
-        Write a Bug Ticket
-      </Button>
+      {
+        loggedIn?  <>
+					{ 
+						ticketData	? <ProjectDashboardTickets tickets={ticketData as BugTicketDto[]}/> 
+									: <p> Loading Tickets...</p>
+					}
+					<Button
+						onClick={() => setAddIsVisible(true)}
+						className={"write-ticket-button"}
+					>
+						Write a Bug Ticket
+					</Button>
+				</>
+			: <p>Logging In...</p>
+      }
 
       {/* Modal for the Form */}
       <Modal
