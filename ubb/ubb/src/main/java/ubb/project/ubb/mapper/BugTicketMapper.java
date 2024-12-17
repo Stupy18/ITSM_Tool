@@ -43,10 +43,12 @@ public class BugTicketMapper {
         tinyProj.setProjectName(entity.getProject().getProjectName());
         dto.setProject(tinyProj);
 
-        TinyUserDto tinyAssigned = new TinyUserDto();
-        tinyAssigned.setId(entity.getAssignedTo().getId());
-        tinyAssigned.setName(entity.getAssignedTo().getName());
-        dto.setAssignedTo(tinyAssigned);
+        if(entity.getAssignedTo() != null) {
+            TinyUserDto tinyAssigned = new TinyUserDto();
+            tinyAssigned.setId(entity.getAssignedTo().getId());
+            tinyAssigned.setName(entity.getAssignedTo().getName());
+            dto.setAssignedTo(tinyAssigned);
+        }
 
         TinyUserDto tinyCreated = new TinyUserDto();
         tinyCreated.setId(entity.getCreatedBy().getId());

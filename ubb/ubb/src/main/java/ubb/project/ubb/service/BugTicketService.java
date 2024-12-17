@@ -32,4 +32,10 @@ public class BugTicketService {
         bugTicketRepository.save(entity);
         return entity;
     }
+
+    public List<BugTicketDto> getByCreator(Long id) {
+        return bugTicketRepository.findAllByCreatedBy_Id(id).stream().map((BugTicket ticket) -> {
+            return bugTicketMapper.entityToDto(ticket);
+        }).toList();
+    }
 }
