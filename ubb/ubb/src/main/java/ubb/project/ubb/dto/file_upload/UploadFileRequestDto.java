@@ -9,5 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class UploadFileRequestDto {
     private Long projectId;
+    private Long uploadedBy;
     private MultipartFile file;
 }

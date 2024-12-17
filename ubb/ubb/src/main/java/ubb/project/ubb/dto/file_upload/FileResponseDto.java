@@ -12,4 +12,5 @@ public class FileResponseDto {
     private Long projectId;
     private String fileName;
     private String fileType;
+    private String uploadedByName;
 }

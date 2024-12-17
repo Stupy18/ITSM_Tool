@@ -1,29 +1,29 @@
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import "./DashboardPage.css";
-import { useEffect, useState } from "react";
-// @ts-ignore
+import FileUpload from "../../components/ProjectFiles/FileUpload.tsx";
 import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
-import React from "react";
+import FileList from "../../components/ProjectFiles/FileList.tsx";
 
 export default function DashboardPage() {
-    const [username, setUsername] = useState<string>(" ");
-    const navigate = useNavigate();
+  const [username, setUsername] = useState<string>(" ");
 
-    useEffect(() => {
-        if (localStorage.getItem(LocalStorageEnum.USER_NAME)) {
-            setUsername(localStorage.getItem(LocalStorageEnum.USER_NAME)!);
-        }
-    }, []);
+  useEffect(() => {
+    const storedUsername = localStorage.getItem(LocalStorageEnum.USER_NAME);
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem(LocalStorageEnum.USER_NAME);
-        navigate("/login");
-    };
-
-    return (
-        <div className="dashboard-page">
-            <h1>Welcome to the Dashboard, {username}!</h1>
-            <p>The implementation of this page will be coming soon...</p>
-        </div>
-    );
+  return (
+    <div className="dashboard-page">
+      <h1>Welcome to the Dashboard, {username}!</h1>
+      <div className="upload-section">
+        <h2>Upload Files</h2>
+        <FileUpload />
+      </div>
+      <div className="files-section-container">
+        <FileList />
+      </div>
+    </div>
+  );
 }

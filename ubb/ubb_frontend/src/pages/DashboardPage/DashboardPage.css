@@ -1,13 +1,64 @@
-/* DashboardPage.css */
+/* src/pages/DashboardPage.css */
 
-/* General Page Layout */
 .dashboard-page {
-    font-family: 'Roboto', sans-serif;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f6f9fc;
-    color: #333;
-    padding: 2rem;
-    text-align: center;
-}
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .logout-button {
+    float: right;
+    padding: 10px 20px;
+    background-color: #ff4b5c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background-color: #ff1f3a;
+  }
+  
+  .upload-section, .files-section {
+    margin-top: 40px;
+  }
+  
+  input[type="number"], input[type="file"] {
+    display: block;
+    margin: 10px 0;
+    padding: 8px;
+    width: 300px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin: 10px 0;
+  }
+  
+  a {
+    color: #1976d2;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  

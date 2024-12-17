@@ -1,7 +1,16 @@
-.write-ticket-button{
-    width: 10%;
-    margin-top: 1em;
-    background-color: var(--primary-blue);
-    font-size: 1.0em;
-    color: white;
+.write-ticket-button,
+.upload-file-button {
+  width: 10%;
+  margin-top: 1em;
+  background-color: var(--primary-blue);
+  font-size: 1em;
+  color: white;
+}
+
+.project-files-h2 {
+    margin-top: 1.5em;
+}
+
+.upload-section{
+    margin-top: 0em;
 }

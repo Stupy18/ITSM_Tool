@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ubb.project.ubb.data.RoleEnum;
 import ubb.project.ubb.filter.JwtFilter;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -36,6 +35,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request.requestMatchers(antMatcher(HttpMethod.OPTIONS)).permitAll()
                         .requestMatchers("/login", "/register","/bugticket/add", "/login/guest/**").permitAll()
                         .requestMatchers("/company/registering").hasAuthority("ADMIN")
+                        .requestMatchers("/files/upload").permitAll()
+                        .requestMatchers("/files/project/**").permitAll()
+                        .requestMatchers("files/download/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))

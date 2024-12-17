@@ -11,9 +11,9 @@ import ubb.project.ubb.exception.NotExistsException;
 import ubb.project.ubb.service.FileService;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:8080", "http://127.0.0.1:8080", "http://127.0.0.1:4200/**", "http://localhost:4200/**", "http://localhost:4200", "http://127.0.0.1:4200" }, maxAge = 3600)
 @RequestMapping("/files")
 public class FileController {
 
@@ -23,20 +23,15 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    /**
-     * Endpoint to upload a file.
-     *
-     * @param projectId The ID of the project to associate the file with.
-     * @param file      The file to be uploaded.
-     * @return ResponseEntity containing FileResponseDto and HTTP status.
-     */
     @PostMapping("/upload")
     public ResponseEntity<FileResponseDto> uploadFile(
             @RequestParam("projectId") Long projectId,
+            @RequestParam("uploadedBy") Long uploadedBy,
             @RequestParam("file") MultipartFile file) {
         try {
             UploadFileRequestDto requestDto = new UploadFileRequestDto();
             requestDto.setProjectId(projectId);
+            requestDto.setUploadedBy(uploadedBy);
             requestDto.setFile(file);
 
             FileResponseDto responseDto = fileService.uploadFile(requestDto);
@@ -45,6 +40,22 @@ public class FileController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (IOException e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Endpoint to fetch all files for a specific project.
+     *
+     * @param projectId The ID of the project.
+     * @return ResponseEntity containing the list of FileResponseDto.
+     */
+    @GetMapping("/project/{projectId}/files")
+    public ResponseEntity<List<FileResponseDto>> getProjectFiles(@PathVariable Long projectId) {
+        try {
+            List<FileResponseDto> files = fileService.getFilesByProjectId(projectId);
+            return new ResponseEntity<>(files, HttpStatus.OK);
+        } catch (NotExistsException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 

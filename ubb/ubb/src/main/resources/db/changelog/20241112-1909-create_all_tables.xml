@@ -146,10 +146,16 @@
             <column name="created_at" type="TIMESTAMP"/>
         </createTable>
     </changeSet>
-    
+
     <!-- Make Company column on user nullable -->
     <changeSet id="10" author="edi">
         <dropNotNullConstraint tableName="user" columnName="company_id" columnDataType="bigint"/>
     </changeSet>
+
+    <!-- Make file_content of type LONGBLOB (4GB) -->
+    <changeSet id="11" author="mircea">
+        <modifyDataType tableName="file" columnName="file_content" newDataType="longblob"/>
+    </changeSet>
+
 
 </databaseChangeLog>

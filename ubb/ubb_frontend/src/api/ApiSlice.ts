@@ -12,6 +12,8 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
+  reducerPath: "api",
+  tagTypes: ['File'],
   endpoints: () => ({}),
 });
 
