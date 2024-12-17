@@ -182,12 +182,12 @@ export default function ProjectDashboard() {
         </Form>
       </Modal>
 
-      <div className="upload-section">
-        <FileUpload projectId={Number(projectId)} userId={Number(userId)}/>
-      </div>
-
       <div className="files-section-container">
           <FileList projectId={Number(projectId)}/>
+      </div>
+
+      <div className="upload-section">
+        <FileUpload projectId={Number(projectId)} userId={Number(userId)}/>
       </div>
     </>
   );
