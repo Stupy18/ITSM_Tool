@@ -36,9 +36,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ projectId, userId }) => {
 
   return (
     <div>
-      <h2>Upload File</h2>
       <input type="file" onChange={handleFileChange} />
-      <Button type="primary" onClick={handleUpload} disabled={isLoading}>
+      <Button className={"upload-file-button"} onClick={handleUpload} disabled={isLoading}>
         {isLoading ? "Uploading..." : "Upload"}
       </Button>
       {isSuccess && <p>File uploaded successfully!</p>}

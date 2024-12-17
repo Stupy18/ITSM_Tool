@@ -35,7 +35,6 @@ const FileList: React.FC<FileListProps> = ({ projectId }) => {
 
   return (
     <div className="files-section">
-      <h2>Project Files</h2>
       {isLoading && <p>Loading files...</p>}
       {isError && <p>Error fetching files.</p>}
       {files && files.length > 0 ? (
