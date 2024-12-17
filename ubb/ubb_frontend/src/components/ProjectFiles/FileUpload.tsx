@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { useUploadFileMutation } from "../../../api/FileApi.ts";
-import { FileUploadRequestDto } from "../../../dto/FileUploadRequestDto";
+import { Button, Form, Input, Select, Modal } from "antd";
+import { useUploadFileMutation } from "../../api/FileApi.ts";
+import { FileUploadRequestDto } from "../../dto/FileUploadRequestDto.ts";
 
-const FileUpload = () => {
-  const [projectId, setProjectId] = useState<number>(0);
-  const [uploadedBy, setUploadedBy] = useState<number>(0); // You might derive this from auth context
+interface FileUploadProps {
+  projectId: number;
+  userId: number;
+}
+
+const FileUpload: React.FC<FileUploadProps> = ({ projectId, userId }) => {
   const [file, setFile] = useState<File | null>(null);
-  const [uploadFile, { isLoading, isSuccess, isError }] = useUploadFileMutation();
+  const [uploadFile, { isLoading, isSuccess, isError }] =
+    useUploadFileMutation();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -16,7 +21,7 @@ const FileUpload = () => {
 
   const handleUpload = async () => {
     if (file) {
-      const request: FileUploadRequestDto = { projectId, uploadedBy, file };
+      const request: FileUploadRequestDto = { projectId, uploadedBy: userId, file };
       try {
         const response = await uploadFile(request).unwrap();
         console.log("File uploaded successfully", response);
@@ -32,22 +37,10 @@ const FileUpload = () => {
   return (
     <div>
       <h2>Upload File</h2>
-      <input
-        type="number"
-        placeholder="Project ID"
-        value={projectId}
-        onChange={(e) => setProjectId(Number(e.target.value))}
-      />
-      <input
-        type="number"
-        placeholder="Uploaded By (User ID)"
-        value={uploadedBy}
-        onChange={(e) => setUploadedBy(Number(e.target.value))}
-      />
       <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload} disabled={isLoading}>
+      <Button type="primary" onClick={handleUpload} disabled={isLoading}>
         {isLoading ? "Uploading..." : "Upload"}
-      </button>
+      </Button>
       {isSuccess && <p>File uploaded successfully!</p>}
       {isError && <p>There was an error uploading the file.</p>}
     </div>

@@ -13,6 +13,8 @@ import { useLoginGuestMutation } from "../../api/UserApi.ts";
 import { LoginResponseDto } from "../../dto/LoginResponseDto.ts";
 import { jwtDecode } from "jwt-decode";
 import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
+import FileUpload from "../../components/ProjectFiles/FileUpload.tsx";
+import FileList from "../../components/ProjectFiles/FileList.tsx";
 
 // interface FormItems {
 //   id: number;
@@ -179,6 +181,14 @@ export default function ProjectDashboard() {
           </Form.Item>
         </Form>
       </Modal>
+
+      <div className="upload-section">
+        <FileUpload projectId={Number(projectId)} userId={Number(userId)}/>
+      </div>
+
+      <div className="files-section-container">
+          <FileList projectId={Number(projectId)}/>
+      </div>
     </>
   );
 }

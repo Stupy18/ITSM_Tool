@@ -1,27 +1,24 @@
 import React, { useState } from "react";
-import { useFetchFilesByProjectQuery } from "../../../api/FileApi.ts";
-import { FileUploadResponseDto } from "../../../dto/FileUploadResponseDto";
+import { Button, Form, Input, Select, Modal } from "antd";
+import { useFetchFilesByProjectQuery } from "../../api/FileApi.ts";
 
-const FileList: React.FC = () => {
-  const [projectId, setProjectId] = useState<number>(0);
-  const { data: files, isLoading, isError, refetch } = useFetchFilesByProjectQuery(projectId, {
+interface FileListProps {
+  projectId: number;
+}
+
+const FileList: React.FC<FileListProps> = ({ projectId }) => {
+  const {
+    data: files,
+    isLoading,
+    isError,
+    refetch,
+  } = useFetchFilesByProjectQuery(projectId, {
     skip: projectId === 0, // Skip query if projectId is not set
   });
-
-  const handleProjectIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProjectId(Number(e.target.value));
-    // RTK Query will automatically refetch based on projectId change
-  };
 
   return (
     <div className="files-section">
       <h2>Project Files</h2>
-      <input
-        type="number"
-        placeholder="Enter Project ID"
-        value={projectId}
-        onChange={handleProjectIdChange}
-      />
       {isLoading && <p>Loading files...</p>}
       {isError && <p>Error fetching files.</p>}
       {files && files.length > 0 ? (
@@ -42,7 +39,7 @@ const FileList: React.FC = () => {
       ) : (
         projectId !== 0 && <p>No files found for this project.</p>
       )}
-      <button onClick={() => refetch()}>Refresh Files</button>
+      <Button type="primary" onClick={() => refetch()}>Refresh Files</Button>
     </div>
   );
 };

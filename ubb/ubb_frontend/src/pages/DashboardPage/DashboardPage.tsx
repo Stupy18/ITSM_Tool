@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./DashboardPage.css";
-import FileUpload from "../DashboardPage/Components/FileUpload.tsx";
+import FileUpload from "../../components/ProjectFiles/FileUpload.tsx";
 import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
-import FileList from "../DashboardPage/Components/FileList.tsx";
+import FileList from "../../components/ProjectFiles/FileList.tsx";
 
 export default function DashboardPage() {
   const [username, setUsername] = useState<string>(" ");
