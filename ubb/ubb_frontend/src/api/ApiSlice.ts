@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+// @ts-ignore
 import { LocalStorageEnum } from "../enum/LocalStorageEnum.tsx";
 
 export const apiSlice = createApi({

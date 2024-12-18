@@ -46,6 +46,8 @@ export default function Login() {
                 localStorage.setItem(LocalStorageEnum.USER_NAME, JSON.stringify(decoded.user));
                 localStorage.setItem(LocalStorageEnum.USER_ID, decoded.sub);
 
+                localStorage.setItem(LocalStorageEnum.USER_EMAIL, JSON.stringify(decoded.email));
+
                 navigate("/logged");
             })
             .catch((error) => console.log(error));
