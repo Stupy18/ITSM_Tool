@@ -11,9 +11,18 @@ import InvitePage from './pages/InvitePage/InvitePage.tsx';
 import LoggedPage from './pages/LoggedPage/LoggedPage.tsx';
 import ProfilePage from './pages/ProfilePage/ProfilePage.tsx';
 import DashboardPage from './pages/DashboardPage/DashboardPage.tsx';
+
 import ProjectDashboard from './pages/ProjectDashboard/ProjectDashboard.tsx';
-import ProjectList
- from './pages/ProjectsPage/Projects.tsx';
+import ProjectList from './pages/ProjectsPage/Projects.tsx';
+import BugTicketsPage from "./pages/BugTicketsPerProject/BugTicketPage.tsx";
+
+
+
+
+
+
+
+
 
 
 function App() {
@@ -26,6 +35,8 @@ function App() {
           <Route path="/register" element={<RegisterUserPage />} />
           <Route path="/company/register" element={<RegisterCompanyPage />} />
           <Route path="/project_dashboard/:projectId/:userId" element={<ProjectDashboard/>}/>
+          <Route path="/project/:projectId/bugs" element={<BugTicketsPage/>} />
+
 
           {/* Routes with the navbar */}
           <Route path="/" element={<Layout />}>
@@ -35,6 +46,7 @@ function App() {
             <Route path='projects' element={<ProjectList />} />
             <Route path='profile' element={<ProfilePage />} />
             <Route path='dashboard' element={<DashboardPage />} />
+
 
           </Route>
         </Routes>

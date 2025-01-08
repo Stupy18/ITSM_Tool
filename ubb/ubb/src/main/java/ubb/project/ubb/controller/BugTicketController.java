@@ -2,6 +2,7 @@ package ubb.project.ubb.controller;
 
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,16 @@ public class BugTicketController {
     @PostMapping("/add")
     BugTicket addBugTicket(@RequestBody AddableTicketDto ticket){
         return service.addTicket(ticket);
+    }
+
+    @GetMapping("/project/{id}")
+    public ResponseEntity<List<BugTicketDto>> getBugTicketsByProject(@PathVariable Long id) {
+        try {
+            List<BugTicketDto> tickets = service.getByProject(id);
+            return ResponseEntity.ok(tickets);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/creator/{id}")
