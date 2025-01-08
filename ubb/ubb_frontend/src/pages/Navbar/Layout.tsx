@@ -54,7 +54,6 @@ export default function Layout() {
           </div>
           <ul className="nav-links">
             <li onClick={() => navigate("/logged")}>Home</li>
-            <li onClick={() => navigate("/dashboard")}>Dashboard</li>
             <li onClick={() => navigate("/projects")}>Projects</li>
             <li onClick={() => navigate("/tickets")}>Tickets</li>
 
