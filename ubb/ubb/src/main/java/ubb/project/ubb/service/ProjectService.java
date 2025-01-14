@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -49,5 +50,9 @@ public class ProjectService {
     public ProjectDto findById(Long id) {
         Optional<Project> project = projectRepository.findById(id);
         return project.map(value -> mapper.entityToDto(value)).orElse(null);
+    }
+
+    public List<ProjectDto> getAll() {
+        return projectRepository.findAll().stream().map(mapper::entityToDto).toList();
     }
 }
