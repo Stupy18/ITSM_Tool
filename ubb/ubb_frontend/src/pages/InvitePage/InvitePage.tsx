@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../api/AxiosConfig.ts"
 import { motion } from "framer-motion";
 import "./InvitePage.css";
 
@@ -78,7 +78,7 @@ const InvitePage = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `http://localhost:8080${endpoint}`,
         emailDetails
       );
