@@ -41,4 +41,10 @@ public class BugTicketController {
         return new ArrayList<>();
     }
 
+    @PutMapping("/{id}/status")
+    public BugTicketDto updateTicketStatus(@PathVariable Long id, @RequestBody String newStatus) {
+        return service.updateTicketStatus(id, newStatus);
+    }
+
+
 }

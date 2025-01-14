@@ -38,4 +38,15 @@ public class BugTicketService {
             return bugTicketMapper.entityToDto(ticket);
         }).toList();
     }
+
+    public BugTicketDto updateTicketStatus(Long id, String newStatus) {
+        BugTicket ticket = bugTicketRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ticket not found"));
+
+        ticket.setStatus(newStatus);
+        bugTicketRepository.save(ticket);
+
+        return bugTicketMapper.entityToDto(ticket);
+    }
+
 }

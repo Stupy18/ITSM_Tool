@@ -1,113 +1,107 @@
-// @ts-ignore
-import React, { useEffect, useState } from 'react';
-import { Table, Typography, Layout, Spin } from 'antd';
-import './TicketPage.css'; // Add styling for consistency
-import { BugTicketDto } from '../../dto/BugTicketDto';
-// @ts-ignore
-import { useGetTicketsForAssigneeQuery } from '../../api/BugTicketApi.ts';
-// @ts-ignore
-import { LocalStorageEnum } from '../../enum/LocalStorageEnum.tsx';
-
-const { Title } = Typography;
-const { Content } = Layout;
+import React, { useEffect, useState } from "react";
+import { Button, Layout, Spin, Table, Typography } from "antd";
+import { useGetTicketsForAssigneeQuery, useUpdateTicketStatusMutation } from "../../api/BugTicketApi.ts";
+import { Content } from "antd/es/layout/layout";
+import Title from "antd/es/typography/Title";
+import { BugTicketDto } from "../../dto/BugTicketDto";
+import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
+import "./TicketPage.css"; // Import custom CSS for styling
 
 export default function TicketPage() {
-const [currentUserId, setCurrentUserId] = useState<number>();
-  const [assignedTickets, setAssignedTickets] = useState<BugTicketDto[] | undefined>();
+    const [currentUserId, setCurrentUserId] = useState<number>();
+    const [assignedTickets, setAssignedTickets] = useState<BugTicketDto[] | undefined>();
 
-  // Set the current user ID from localStorage
-  useEffect(() => {
-      const userId = localStorage.getItem(LocalStorageEnum.USER_ID)!.replace(/["']/g, '');
-    setCurrentUserId(Number(userId));
-  }, []);
+    const [updateTicketStatus] = useUpdateTicketStatusMutation();
 
-  // Fetch tickets for the current user using RTK Query
-  const { data: tickets, error, isLoading } = useGetTicketsForAssigneeQuery(currentUserId!, {
-    skip: !currentUserId,
-  });
+    useEffect(() => {
+        const userId = localStorage.getItem(LocalStorageEnum.USER_ID)!.replace(/["']/g, "");
+        setCurrentUserId(Number(userId));
+    }, []);
 
-  useEffect(() => {
-    setAssignedTickets(tickets);
-  }, [tickets]);
+    const { data: tickets, error, isLoading } = useGetTicketsForAssigneeQuery(currentUserId!, {
+        skip: !currentUserId,
+    });
 
-  console.log(assignedTickets);
-  
+    useEffect(() => {
+        setAssignedTickets(tickets);
+    }, [tickets]);
 
-    // Define table columns
+    const handleToggleStatus = async (ticketId: number, currentStatus: string) => {
+        try {
+            const newStatus = currentStatus === "unfinished" ? "finished" : "unfinished";
+            await updateTicketStatus({ ticketId, newStatus }).unwrap();
+
+            if (assignedTickets) {
+                const updated = assignedTickets.map((t) =>
+                    t.id === ticketId ? { ...t, status: newStatus } : t
+                );
+                setAssignedTickets(updated);
+            }
+        } catch (err) {
+            console.error("Error updating status:", err);
+        }
+    };
+
     const columns = [
+        { title: "Ticket ID", dataIndex: "id", key: "id", align: "center" as const },
+        { title: "Title", dataIndex: "title", key: "title" },
+        { title: "Description", dataIndex: "description", key: "description" },
         {
-          title: 'Ticket ID',
-          dataIndex: 'id',
-          key: 'id',
-          align: 'center' as 'center', // Type assertion to match AlignType
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
+            align: "center" as const,
+            render: (status: string) => (
+                <span className={status === "unfinished" ? "status-unfinished" : "status-finished"}>
+                    {status}
+                </span>
+            ),
         },
+        { title: "Priority", dataIndex: "priority", key: "priority", align: "center" as const },
+        { title: "Project", dataIndex: ["project", "projectName"], key: "project" },
+        { title: "Created By", dataIndex: ["createdBy", "name"], key: "createdBy" },
+        { title: "Assigned To", dataIndex: ["assignedTo", "name"], key: "assignedTo" },
         {
-          title: 'Title',
-          dataIndex: 'title',
-          key: 'title',
+            title: "Action",
+            key: "action",
+            align: "center" as const,
+            render: (_: any, record: BugTicketDto) => (
+                <Button
+                    type="primary"
+                    className="toggle-button"
+                    onClick={() => handleToggleStatus(record.id, record.status)}
+                >
+                    Toggle Status
+                </Button>
+            ),
         },
-        {
-          title: 'Description',
-          dataIndex: 'description',
-          key: 'description',
-        },
-        {
-          title: 'Status',
-          dataIndex: 'status',
-          key: 'status',
-          render: (status: string) => (
-            <span style={{ color: status === 'Open' ? 'green' : 'red' }}>{status}</span>
-          ),
-        },
-        {
-          title: 'Priority',
-          dataIndex: 'priority',
-          key: 'priority',
-          align: 'center' as 'center', // Use type assertion
-        },
-        {
-            title: 'Project',
-            dataIndex: ['project', 'projectName'], // Access the nested "name" field from "project"
-            key: 'project',
-          },
-          {
-            title: 'Created By',
-            dataIndex: ['createdBy', 'name'], // Access the nested "name" field from "createdBy"
-            key: 'createdBy',
-          },
-          {
-            title: 'Assigned To',
-            dataIndex: ['assignedTo', 'name'], // Access the nested "name" field from "assignedTo"
-            key: 'assignedTo',
-          },
-      ];
-      
-  
+    ];
+
     return (
-        <Layout style={{ minHeight: '100vh', background: 'var(--baby-blue)' }}>
-        <Content style={{ margin: '2rem auto', maxWidth: '800px', padding: '2rem', background: '#fff', borderRadius: '8px' }}>
-          <Title level={3} style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            Assigned Tickets
-          </Title>
-  
-          {isLoading ? (
-            <div style={{ textAlign: 'center' }}>
-              <Spin size="large" />
-            </div>
-          ) : error ? (
-            <Typography.Text type="danger" style={{ textAlign: 'center', display: 'block' }}>
-              Failed to load tickets.
-            </Typography.Text>
-          ) : (
-            <Table
-              dataSource={assignedTickets}
-              columns={columns}
-              rowKey="id"
-              pagination={{ pageSize: 5 }}
-              bordered
-            />
-          )}
-        </Content>
-      </Layout>
+        <Layout className="ticket-layout">
+            <Content className="ticket-content">
+                <Title level={3} className="ticket-title">
+                    Assigned Tickets
+                </Title>
+                {isLoading ? (
+                    <div className="loading-container">
+                        <Spin size="large" />
+                    </div>
+                ) : error ? (
+                    <Typography.Text type="danger" className="error-text">
+                        Failed to load tickets.
+                    </Typography.Text>
+                ) : (
+                    <Table
+                        dataSource={assignedTickets}
+                        columns={columns}
+                        rowKey="id"
+                        pagination={{ pageSize: 10 }}
+                        bordered
+                        className="ticket-table"
+                    />
+                )}
+            </Content>
+        </Layout>
     );
-  }
+}
