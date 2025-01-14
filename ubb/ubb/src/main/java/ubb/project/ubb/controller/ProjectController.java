@@ -38,4 +38,10 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.findById(id));
     }
 
+    @GetMapping
+    public List<ProjectDto> getAllProjs(){
+        return projectService.getAll();
+
+    }
+
 }

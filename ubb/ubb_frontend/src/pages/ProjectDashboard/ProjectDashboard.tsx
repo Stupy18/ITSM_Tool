@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ProjectDto } from "../../dto/ProjectDto";
 import { useGetProjectByIdQuery } from "../../api/ProjectApi.ts";
 import { BugTicketDto } from "../../dto/BugTicketDto.ts";
@@ -35,6 +35,7 @@ export default function ProjectDashboard() {
     userId: Number;
   };
   const [loginGuest] = useLoginGuestMutation();
+  const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [currentProj, setCurrentProj] = useState<ProjectDto>();
   const [addIsVisible, setAddIsVisible] = useState<boolean>(false);
@@ -101,6 +102,19 @@ export default function ProjectDashboard() {
   const handleOnCancel = () => {
     setAddIsVisible(false); // Close modal on cancel
   };
+
+      // Add event listener for when the user leaves the page
+      const handleBeforeUnload = () => {
+        localStorage.removeItem(LocalStorageEnum.JWT_TOKEN);
+        localStorage.removeItem(LocalStorageEnum.USER_NAME);
+        localStorage.removeItem(LocalStorageEnum.USER_ID);
+        navigate("/"); // Redirect to the home page
+      };
+  
+      window.addEventListener("beforeunload", handleBeforeUnload);
+  
+      // Cleanup event listener on unmount
+
 
   return (
     <>
