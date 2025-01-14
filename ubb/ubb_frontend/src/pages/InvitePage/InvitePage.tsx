@@ -6,7 +6,8 @@ import "./InvitePage.css";
 const InvitePage = () => {
   const [emailDetails, setEmailDetails] = useState({
     to: "",
-    projectLink: "",
+    clientName: "",
+    projectId: "",
     userCredentials: "",
     passwordCredentials: "",
   });
@@ -138,13 +139,27 @@ const InvitePage = () => {
           {recipientType === "client" && (
             <>
               <label>
-                <span>Project Link:</span>
+                <span>Project ID:</span>
                 <input
-                  type="url"
-                  name="projectLink"
-                  value={emailDetails.projectLink}
+                  type="number"
+                  name="projectId"
+                  value={emailDetails.projectId}
                   onChange={handleChange}
-                  placeholder="Enter project link"
+                  placeholder="Enter project ID"
+                />
+              </label>
+            </>
+          )}
+          {recipientType === "client" && (
+            <>
+              <label>
+                <span>Client Name:</span>
+                <input
+                  type="text"
+                  name="clientName"
+                  value={emailDetails.clientName}
+                  onChange={handleChange}
+                  placeholder="Enter client's name"
                 />
               </label>
             </>

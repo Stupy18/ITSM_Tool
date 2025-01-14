@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import ubb.project.ubb.repository.IUserRepository;
 
 @Service
 public class EmailService {
@@ -11,18 +12,20 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Autowired
+    private IUserRepository userRepository;
 
-    public void sendEmailToClient(String to, String projectLink) {
+
+    public void sendEmailToClient(String to, String clientName, Long projectId) throws Exception {
+        Long userId = userRepository.findByName(clientName).orElseThrow(Exception::new).getId();
         String subject = "Welcome to Our Team!";
-        String text = String.format(
-                "Dear Client,\n\n" +
+        String text =
+                "Dear " + clientName + ",\n\n" +
                         "We are thrilled to welcome you to our team! We look forward to a successful collaboration on your project.\n\n" +
                         "Please find the link to access your project below:\n" +
-                        "%s\n\n" +
+                        "http://localhost:3000/project_dashboard/" + projectId + "/" + userId + "\n\n" +
                         "Thank you for choosing us, and don't hesitate to reach out with any questions.\n\n" +
-                        "Best regards,\nThe Team",
-                projectLink
-        );
+                        "Best regards,\nThe Team";
 
         sendEmail(to, subject, text);
     }
