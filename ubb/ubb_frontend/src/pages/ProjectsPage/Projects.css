@@ -4,13 +4,13 @@
     padding: 20px;
 }
 
-.loading {
-    position: absolute;
-    font-size: 7rem;
-    color: var(--primary-blue);
-    top: 50%;
-    left: 50%;
-}
+/*.loading {*/
+/*    position: absolute;*/
+/*    font-size: 7rem;*/
+/*    color: var(--primary-blue);*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*}*/
 
 .projects-container {
     width: 90%;

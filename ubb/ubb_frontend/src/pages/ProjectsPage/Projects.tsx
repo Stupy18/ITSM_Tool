@@ -41,7 +41,7 @@ const ProjectList: React.FC = () => {
       setTimeout(() => {
         setProjects(dummyProjects);
         setLoading(false);
-      }, 1500);
+      }, 0);
     };
 
     fetchProjects();
