@@ -12,9 +12,10 @@ export const ticketApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getTicketsForAssignee: builder.query<BugTicketDto[], number>({
       query: (assigneeId) => ({
-        url: `${baseUrl}/${assigneeId}`, // Updated endpoint path to better reflect intent
+        url: `${baseUrl}/${assigneeId}`,
         method: "GET"
-    })}),
+      }),
+    }),
     addTicket: builder.mutation<void, { request: AddableTicketDto }>({
       query: ({ request }) => ({
         url: `${baseUrl}/add`,
@@ -22,15 +23,29 @@ export const ticketApi = apiSlice.injectEndpoints({
         body: request,
       }),
     }),
-
-
     getTicketsByCreator: builder.query<BugTicketDto[], number>({
       query: (creatorId) => ({
-        url: `${baseUrl}/creator/${creatorId}`, // Updated endpoint path to better reflect intent
-        method: "GET"
-    })}),
+        url: `${baseUrl}/creator/${creatorId}`,
+        method: "GET",
+      }),
+    }),
+
+    // AICI e mutația care face update de status
+    updateTicketStatus: builder.mutation<BugTicketDto, { ticketId: number; newStatus: string }>({
+      query: ({ ticketId, newStatus }) => ({
+        url: `${baseUrl}/${ticketId}/status`,
+        method: "PUT",
+        body: newStatus,
+      }),
+      // Dacă vrei să refaci automat cache-ul după update, poți folosi invalidatesTags, etc.
+    }),
   }),
 });
 
+export const {
+  useGetTicketsForAssigneeQuery,
+  useAddTicketMutation,
+  useGetTicketsByCreatorQuery,
+  useUpdateTicketStatusMutation,  // <-- Importă mutația
+} = ticketApi;
 
-export const { useGetTicketsForAssigneeQuery, useAddTicketMutation, useGetTicketsByCreatorQuery } = ticketApi;
