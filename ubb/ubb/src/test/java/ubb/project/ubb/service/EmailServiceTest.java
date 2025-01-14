@@ -30,11 +30,12 @@ class EmailServiceTest {
     }
 
     @Test
-    public void sendEmailToClient_sendsEmailSuccessfully() {
+    public void sendEmailToClient_sendsEmailSuccessfully() throws Exception {
         String to = "client@example.com";
-        String projectLink = "http://project-link.com";
+        String clientName = "testName";
+        Long projectId = 1L;
 
-        emailService.sendEmailToClient(to, projectLink);
+        emailService.sendEmailToClient(to, clientName, projectId);
 
         verify(mailSender).send(any(SimpleMailMessage.class));
     }

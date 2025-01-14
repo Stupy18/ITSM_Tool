@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../api/AxiosConfig.ts"
 import { motion } from "framer-motion";
 import "./InvitePage.css";
 
 const InvitePage = () => {
   const [emailDetails, setEmailDetails] = useState({
     to: "",
-    projectLink: "",
+    clientName: "",
+    projectId: "",
     userCredentials: "",
     passwordCredentials: "",
   });
@@ -78,7 +79,7 @@ const InvitePage = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `http://localhost:8080${endpoint}`,
         emailDetails
       );
@@ -138,13 +139,27 @@ const InvitePage = () => {
           {recipientType === "client" && (
             <>
               <label>
-                <span>Project Link:</span>
+                <span>Project ID:</span>
                 <input
-                  type="url"
-                  name="projectLink"
-                  value={emailDetails.projectLink}
+                  type="number"
+                  name="projectId"
+                  value={emailDetails.projectId}
                   onChange={handleChange}
-                  placeholder="Enter project link"
+                  placeholder="Enter project ID"
+                />
+              </label>
+            </>
+          )}
+          {recipientType === "client" && (
+            <>
+              <label>
+                <span>Client Name:</span>
+                <input
+                  type="text"
+                  name="clientName"
+                  value={emailDetails.clientName}
+                  onChange={handleChange}
+                  placeholder="Enter client's name"
                 />
               </label>
             </>
