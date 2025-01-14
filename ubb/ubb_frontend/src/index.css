@@ -8,10 +8,10 @@
 body {
   margin: 0;
   font-family: 'JetBrains Mono', monospace;
-    -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --primary-blue: #5469d4;
-  
+
 }
 
 h1, h2, h3 {

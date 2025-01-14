@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Button, Layout, Spin, Table, Typography } from "antd";
-import { useGetTicketsForAssigneeQuery, useUpdateTicketStatusMutation } from "../../api/BugTicketApi.ts";
-import { Content } from "antd/es/layout/layout";
-import Title from "antd/es/typography/Title";
-import { BugTicketDto } from "../../dto/BugTicketDto";
+import React, { useEffect, useState } from 'react';
+import { Button, Layout, Spin, Typography, Card, Row, Col, Tag } from 'antd';
+import { Content } from 'antd/es/layout/layout';
+import { useGetTicketsForAssigneeQuery, useUpdateTicketStatusMutation } from '../../api/BugTicketApi.ts';
+import { BugTicketDto } from '../../dto/BugTicketDto.ts';
 import { LocalStorageEnum } from "../../enum/LocalStorageEnum.tsx";
-import "./TicketPage.css"; // Import custom CSS for styling
+import './TicketPage.css';
 
-export default function TicketPage() {
+const TicketPage = () => {
     const [currentUserId, setCurrentUserId] = useState<number>();
-    const [assignedTickets, setAssignedTickets] = useState<BugTicketDto[] | undefined>();
-
+    const [assignedTickets, setAssignedTickets] = useState<BugTicketDto[]>();
     const [updateTicketStatus] = useUpdateTicketStatusMutation();
 
     useEffect(() => {
@@ -42,47 +40,75 @@ export default function TicketPage() {
         }
     };
 
-    const columns = [
-        { title: "Ticket ID", dataIndex: "id", key: "id", align: "center" as const },
-        { title: "Title", dataIndex: "title", key: "title" },
-        { title: "Description", dataIndex: "description", key: "description" },
-        {
-            title: "Status",
-            dataIndex: "status",
-            key: "status",
-            align: "center" as const,
-            render: (status: string) => (
-                <span className={status === "unfinished" ? "status-unfinished" : "status-finished"}>
-                    {status}
-                </span>
-            ),
-        },
-        { title: "Priority", dataIndex: "priority", key: "priority", align: "center" as const },
-        { title: "Project", dataIndex: ["project", "projectName"], key: "project" },
-        { title: "Created By", dataIndex: ["createdBy", "name"], key: "createdBy" },
-        { title: "Assigned To", dataIndex: ["assignedTo", "name"], key: "assignedTo" },
-        {
-            title: "Action",
-            key: "action",
-            align: "center" as const,
-            render: (_: any, record: BugTicketDto) => (
-                <Button
-                    type="primary"
-                    className="toggle-button"
-                    onClick={() => handleToggleStatus(record.id, record.status)}
-                >
-                    Toggle Status
-                </Button>
-            ),
-        },
-    ];
+    const renderTicketCard = (ticket: BugTicketDto) => (
+        <Col xs={24} sm={24} md={12} lg={8} xl={8} key={ticket.id}>
+            <Card
+                className="ticket-card"
+                title={
+                    <div className="card-header">
+                        <span className="ticket-id">#{ticket.id}</span>
+                        <span className="ticket-title">{ticket.title}</span>
+                    </div>
+                }
+                actions={[
+                    <Button
+                        type="primary"
+                        onClick={() => handleToggleStatus(ticket.id, ticket.status)}
+                        className={`status-button ${ticket.status === 'unfinished' ? 'unfinished' : 'finished'}`}
+                    >
+                        {ticket.status === 'unfinished' ? 'Mark Complete' : 'Mark Incomplete'}
+                    </Button>
+                ]}
+            >
+                <div className="card-content">
+                    <div className="info-row">
+                        <span className="label">Status:</span>
+                        <Tag color={ticket.status === 'unfinished' ? 'error' : 'success'}>
+                            {ticket.status}
+                        </Tag>
+                    </div>
+
+                    <div className="info-row">
+                        <span className="label">Priority:</span>
+                        <Tag color={
+                            ticket.priority === 'high' ? 'red' :
+                                ticket.priority === 'mid' ? 'orange' : 'green'
+                        }>
+                            {ticket.priority}
+                        </Tag>
+                    </div>
+
+                    <div className="info-row">
+                        <span className="label">Description:</span>
+                        <span className="description">{ticket.description}</span>
+                    </div>
+
+                    <div className="info-row">
+                        <span className="label">Project:</span>
+                        <span>{ticket.project?.projectName}</span>
+                    </div>
+
+                    <div className="info-row">
+                        <span className="label">Created By:</span>
+                        <span>{ticket.createdBy?.name}</span>
+                    </div>
+
+                    <div className="info-row">
+                        <span className="label">Assigned To:</span>
+                        <span>{ticket.assignedTo?.name}</span>
+                    </div>
+                </div>
+            </Card>
+        </Col>
+    );
 
     return (
         <Layout className="ticket-layout">
             <Content className="ticket-content">
-                <Title level={3} className="ticket-title">
+                <Typography.Title level={3} className="ticket-title">
                     Assigned Tickets
-                </Title>
+                </Typography.Title>
+
                 {isLoading ? (
                     <div className="loading-container">
                         <Spin size="large" />
@@ -92,16 +118,13 @@ export default function TicketPage() {
                         Failed to load tickets.
                     </Typography.Text>
                 ) : (
-                    <Table
-                        dataSource={assignedTickets}
-                        columns={columns}
-                        rowKey="id"
-                        pagination={{ pageSize: 10 }}
-                        bordered
-                        className="ticket-table"
-                    />
+                    <Row gutter={[16, 16]} className="tickets-grid">
+                        {assignedTickets?.map(ticket => renderTicketCard(ticket))}
+                    </Row>
                 )}
             </Content>
         </Layout>
     );
-}
+};
+
+export default TicketPage;
