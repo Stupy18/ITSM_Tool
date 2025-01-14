@@ -54,23 +54,38 @@ const BugTicketsPage: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                console.log('Current projectId:', projectId);
+
                 // Fetch project details
                 const projectResponse = await fetch(`http://localhost:8080/api/project/${projectId}`);
+                console.log('Project response status:', projectResponse.status); // Add this
+                if (!projectResponse.ok) {
+                    throw new Error(`Project HTTP error! status: ${projectResponse.status}`);
+                }
                 const projectData = await projectResponse.json();
+                console.log('Project data:', projectData); // Add this
                 setProject(projectData);
 
-                // Fetch tickets - this is the URL you asked about
+                // Fetch tickets
                 const ticketsResponse = await fetch(`http://localhost:8080/bugticket/project/${projectId}`);
+                console.log('Tickets response status:', ticketsResponse.status); // Add this
+                if (!ticketsResponse.ok) {
+                    throw new Error(`Tickets HTTP error! status: ${ticketsResponse.status}`);
+                }
                 const ticketsData = await ticketsResponse.json();
+                console.log('Tickets data:', ticketsData); // Add this
                 setTickets(ticketsData);
                 setLoading(false);
             } catch (err) {
-                setError('Failed to load bug tickets');
+                console.error('Error details:', err);
+                setError(`Failed to load data: ${err.message}`);
                 setLoading(false);
             }
         };
 
-        fetchData();
+        if (projectId) {
+            fetchData();
+        }
     }, [projectId]);
 
     const filteredAndSortedTickets = useMemo(() => {

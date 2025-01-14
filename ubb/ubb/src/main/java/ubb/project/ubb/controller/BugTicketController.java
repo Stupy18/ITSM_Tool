@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bugticket")
+@CrossOrigin(origins ={ "http://localhost:3000", "http://localhost:3000/**"})
 @AllArgsConstructor
 public class BugTicketController {
     BugTicketService service;

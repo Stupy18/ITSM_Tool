@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import ubb.project.ubb.filter.JwtFilter;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -33,11 +34,16 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers(antMatcher(HttpMethod.OPTIONS)).permitAll()
+                        .requestMatchers( "/**").permitAll()
                         .requestMatchers("/login", "/register","/bugticket/add", "/login/guest/**","/email/to/**").permitAll()
                         .requestMatchers("/company/registering").hasAuthority("ADMIN")
                         .requestMatchers("/files/upload").permitAll()
                         .requestMatchers("/files/project/**").permitAll()
                         .requestMatchers("files/download/**").permitAll()
+                        .requestMatchers("bugticket/**").permitAll()
+                        .requestMatchers("bugticket/project/**").permitAll()
+                        .requestMatchers("project/**").permitAll()
+                        .requestMatchers("/api/project/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
